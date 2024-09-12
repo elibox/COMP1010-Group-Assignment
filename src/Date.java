@@ -7,6 +7,6 @@ public class Date {
         this.year = year;
     }
     public String toString() {
-        return ""+this.day+"/"+this.month+"/"+this.year;
+        return this.day+"/"+this.month+"/"+this.year;
    } 
 }

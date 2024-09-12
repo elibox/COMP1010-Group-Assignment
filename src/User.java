@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class User {
     /*ArrayList<Integer> studentID = ArrayList<>(); //8 characters
     public ArrayList<String> alias, pronouns;  
@@ -7,13 +9,27 @@ public class User {
     
     long studentId;
     String email, password;
-    String name;
+    String username;
+    ArrayList<Friend> friendsList;
+    ArrayList<Subscription> subscriptions;
 
-    public User(long studentId, String name, String email, String password) {
+
+    /* think we should remove the info we dont want shown from the paramenters
+    then have separate constructors for the private info // or just make another constructor for it idk - nawal
+    public User(String username, and whatever else we wanna display here) {
+        this.username = username;
+    }*/
+
+
+    public User(long studentId, String username, String email, String password) {
         this.studentId = studentId;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public String toString() {
+        return username;
     }
 
     /* probably not the right way to do it - nick
