@@ -8,13 +8,23 @@ public class Channel {
         messages = new ArrayList<Message>(channelMessages);
     }
 
-    //adding to list
+    public Channel(String topic, String name) {
+        this.topic = topic;
+        this.name = name;
+    }
+
+    //toString to print channel topic/name
+    public String toString() {
+        return topic+" - "+name;
+    }
+
+    //adding a message to channel? 
     public void add(Message m) {
         messages.add(m);
     }
 
-    //removing from specific index of list - idk if we really need this
-    public void remove(int idx) {
+    //deleting message from a channel
+    public void deleteMessage(int idx) {
         if(idx>=0 && idx<messages.size()) {
             messages.remove(idx);
         }

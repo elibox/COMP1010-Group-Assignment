@@ -8,6 +8,6 @@ public class Time {
     }
     
     public String toString() {
-        return this.hour+":"+this.minute+":"+this.second;
+        return hour+":"+minute+":"+second;
    } 
 }

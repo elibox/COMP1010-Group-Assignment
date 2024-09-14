@@ -11,7 +11,8 @@ public class Message {
         this.timeSent = timeSent;
     }
 
-    public String toString() {
-        return timeSent.toString() +" | "+channel+ " | "+ sender + ": " + message;
+
+    public String channelMessage() {
+        return channel+" | "+sender+" | "+timeSent.toString()+": "+message;
     }
 }

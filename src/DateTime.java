@@ -8,6 +8,6 @@ public class DateTime {
     }
 
     public String toString() {
-        return this.date.toString()+", "+this.time.toString();
+        return date.toString()+", "+time.toString();
     }
 }
