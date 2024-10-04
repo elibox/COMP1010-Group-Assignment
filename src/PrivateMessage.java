@@ -52,12 +52,11 @@ public class PrivateMessage {
         return sentFrom.username+" sent a group message to "+gcMembers+ " at "+timeSent.toString()+": "+privateMessage;
     }
 
-    //uhhh change the name of this method if it's bad. -- claire
-    public String addedMessage(User a) {
+    public String addedNotice(User a) {
         return a+" was added to the group chat "+gcMembers+" at "+timeSent.toString();
     }
 
-    public String removedMessage(User a) {
+    public String removedNotice(User a) {
         return a+" was removed from the group chat "+gcMembers+" at "+timeSent.toString();
     }
 }

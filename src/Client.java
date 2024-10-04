@@ -29,12 +29,13 @@ public class Client {
         //adding someone to the gc
         User kate = new User(98888192, "katekate", "kate@gmail.com", "password!");
         gc.addUser(kate);
-        System.out.println(gc.addedMessage(kate));
+        System.out.println(gc.addedNotice(kate));
+
 
         //removing someone from the gc
         gc.removeUser(kate);
-        System.out.println(gc.removedMessage(kate));
-        
+        System.out.println(gc.removedNotice(kate));
+
 
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages
         Channel test = new Channel("Study", "COMP1010");
