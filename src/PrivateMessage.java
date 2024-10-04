@@ -25,12 +25,6 @@ public class PrivateMessage {
         }
     }
 
-    /* public void removeUser(int idx) {
-        if(idx>=0 && idx<gcMembers.size()) {
-            gcMembers.remove(idx);
-        }
-    } */
-
     /*note- could add a boolean isFriend? to see if they are friends before the person can send a message to them
     or add them to a group dm */
 
@@ -56,5 +50,14 @@ public class PrivateMessage {
 
     public String groupMessage() {
         return sentFrom.username+" sent a group message to "+gcMembers+ " at "+timeSent.toString()+": "+privateMessage;
+    }
+
+    //uhhh change the name of this method if it's bad. -- claire
+    public String addedMessage(User a) {
+        return a+" was added to the group chat "+gcMembers+" at "+timeSent.toString();
+    }
+
+    public String removedMessage(User a) {
+        return a+" was removed from the group chat "+gcMembers+" at "+timeSent.toString();
     }
 }
