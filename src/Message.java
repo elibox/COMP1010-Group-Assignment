@@ -30,6 +30,7 @@ public class Message {
 
 
     //group private message
+    //maybe group chats can have names? just an idea -- claire
     public Message(User sentFrom, ArrayList<User> gcMembers, DateTime timeSent, String message) {
         this.message = message;
         this.sentFrom = sentFrom;
@@ -45,21 +46,19 @@ public class Message {
     //adding a user to gc
     public void addUser(User a) {
         gcMembers.add(a);
-    }
-    
-    public String addedNotice(User a) {
-        return a+" was added to the group chat "+gcMembers+" at "+timeSent.toString();
+        System.out.println(a+" was added to the group chat "+gcMembers+" at "+timeSent.toString());
     }
 
+    
     //removing a user from gc
     public void removeUser(User a) {
         if (gcMembers.size() > 2 && gcMembers.contains(a) == true) {
             gcMembers.remove(a);
+            System.out.println(a+" was removed from the group chat "+gcMembers+" at "+timeSent.toString());
+        } else {
+            //remove if deemed necessary, thought it'd help with debugging
+            System.out.println("Error: failed to remove "+a);
         }
-    }
-
-    public String removedNotice(User a) {
-        return a+" was removed from the group chat "+gcMembers+" at "+timeSent.toString();
     }
 
 
