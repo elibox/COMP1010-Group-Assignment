@@ -17,12 +17,12 @@ public class Client {
 
         //group message
         ArrayList<User> a = new ArrayList<User>(Arrays.asList(jane, sam, paul));
-        PrivateMessage gc = new PrivateMessage(john, a, dt1, "hru >,<");
+        Message gc = new Message(john, a, dt1, "hru >,<");
         System.out.println(gc.groupMessage());
 
 
         //private message
-        PrivateMessage dm = new PrivateMessage(paul, jane, dt1, "have u done the quiz yet");
+        Message dm = new Message(paul, jane, dt1, "have u done the quiz yet");
         System.out.println(dm.privMessage());
         
 
