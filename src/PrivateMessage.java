@@ -19,11 +19,17 @@ public class PrivateMessage {
     }
     
     //removing someone from groupchat
-    public void removeUser(int idx) {
+    public void removeUser(User a) {
+        if (gcMembers.size() > 2 && gcMembers.contains(a) == true) {
+            gcMembers.remove(a);
+        }
+    }
+
+    /* public void removeUser(int idx) {
         if(idx>=0 && idx<gcMembers.size()) {
             gcMembers.remove(idx);
         }
-    }
+    } */
 
     /*note- could add a boolean isFriend? to see if they are friends before the person can send a message to them
     or add them to a group dm */

@@ -32,13 +32,12 @@ public class Client {
 
 
         //removing someone from the gc
-        gc.removeUser(1);
-        System.out.println(gc.groupMessage());
+        gc.removeUser(kate);
 
         /* note: might wanna add something that says __ has been added/removed, i think in the message class?
         not sure how to tho :/ - nawal */
 
-    
+        
 
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages
         Channel test = new Channel("Study", "COMP1010");
