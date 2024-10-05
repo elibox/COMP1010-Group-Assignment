@@ -29,6 +29,8 @@ public class Message {
         this.message = message;
         this.date = date;
         this.time = time;
+
+        //System.out.println(channel+" | "+sentFrom+" | "+dateTimeToString()+": "+message);
     }
 
     public String channelMessage() {

@@ -6,6 +6,7 @@ public class User {
     String email, password;
     String username;
     ArrayList<User> friendsList;
+    ArrayList<User> blockList;
     ArrayList<Subscription> subscriptions;
 
     /* think we should remove the info we dont want shown from the paramenters
@@ -16,6 +17,11 @@ public class User {
     public User(String username, and whatever else we wanna display here) {
         this.username = username;
     }*/
+
+    /* to do:
+        - boolean for blocked users
+        - unable to see blocked users' messages
+     */
 
     public User(long studentId, String username, String email, String password) {
         this.studentId = studentId;
@@ -41,8 +47,22 @@ public class User {
         }
     }
 
+    //checking friend list (extremely scuffed)
+    //to do: rework the loop into a recursive function
+    public void checkFriendList(ArrayList<User> friendsList) {
+         if (friendsList.size() > 0) {
+            System.out.print("Friend list: ");
+            for(int i = 0; i < friendsList.size(); i++) {
+                System.out.print(friendsList.get(i)+" ");
+            }
+            System.out.println(" ");
+        } else {
+            System.out.println("Error: failed to check friend list");
+        } 
+    }
+
     //adding friends
-    public void addFriend(User friend) {
+    public void addFriend(User friend, ArrayList<User> friendsList) {
         if (friendsList.contains(friend) == false) {
             friendsList.add(friend);
             System.out.println(friend+" has been added to the friends list");
@@ -52,7 +72,7 @@ public class User {
     }
 
     //removing friends
-    public void removeFriend(User friend) {
+    public void removeFriend(User friend, ArrayList<User> friendsList) {
         if (friendsList.contains(friend) == true) {
             friendsList.remove(friend);
             System.out.println(friend+" has been removed from the friends list");
@@ -61,41 +81,30 @@ public class User {
         }
     }
 
+    //to do: checking block list
+
+    //blocking someone
+    //please rename "toBlock" if it's bad, variable names are my enemy -- claire
+    public void blockUser(User toBlock, ArrayList<User> blockList) {
+        if (blockList.contains(toBlock) == false) {
+            blockList.add(toBlock);
+            System.out.println(toBlock+" has been blocked");
+        } else {
+            System.out.println("Error: failed to block "+toBlock);
+        }
+    }
+
+    //unblocking someone
+    public void unblockUser(User toUnblock, ArrayList<User> blockList) {
+        if (blockList.contains(toUnblock) == true) {
+            blockList.remove(toUnblock);
+            System.out.println(toUnblock+" has been unblocked");
+        }  else {
+            System.out.println("Error: failed to unblock "+toUnblock);
+        }
+    }
+
     /*i think we need to set up methods for users to send messages and in here so instead of having to go 
     new Private message... we can just user.____() - not really sure tho - nawal */
 
-
-    /* probably not the right way to do it - nick
-    public void studentId() {
-        System.out.println(studentId);
-    }
-
-    public void email() {
-        System.out.println(email);
-    }
-
-    public void password() {
-        System.out.println(password);
-    }
-
-    public void alias() {
-        System.out.println(alias);
-    }
-
-    public void name() {
-        System.out.println(name);
-    }
-
-    public void age() {
-        System.out.println(age);
-    }
-
-    public void publicInfo() {
-        System.out.println(alias + " | " + name + " | " + age);
-    }
-
-    public void privateInfo() {
-        System.out.println(studentId + " | " + email + " | " + password);
-    }
-    */
 }

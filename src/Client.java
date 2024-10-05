@@ -13,6 +13,7 @@ public class Client {
         User sam = new User(987654321, "lololol", "sam@gmail.com", "ppp32");
         User paul = new User(87654291, "rawr", "pawl@gmail.com", "lol123");
 
+        ArrayList<User> johnsFriendList = new ArrayList<User>(Arrays.asList(jane));
 
         //group message
         ArrayList<User> a = new ArrayList<User>(Arrays.asList(jane, sam, paul));
@@ -25,13 +26,15 @@ public class Client {
         System.out.println(dm.privMessage());
         
 
-        //adding someone to the gc
+        //group chat - add and remove user
         User kate = new User(98888192, "katekate", "kate@gmail.com", "password!");
         gc.addUser(kate);
-
-
-        //removing someone from the gc
         gc.removeUser(kate);
+
+
+        //friend list - add and remove user
+        john.addFriend(sam, johnsFriendList);
+        john.checkFriendList(johnsFriendList);
 
         
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages
