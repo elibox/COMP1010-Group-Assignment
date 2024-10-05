@@ -39,5 +39,12 @@ public class Client {
         Message firstMes = new Message(test, kate, "how was the prac?",  d1, t1);
         System.out.println(firstMes.channelMessage());
 
+        Scanner demoScanner = new Scanner(System.in);
+        System.out.println("Enter username");
+    
+        String username = demoScanner.nextLine();
+        System.out.println("Username is: " + username);
+
+        demoScanner.close();
     }
 }
