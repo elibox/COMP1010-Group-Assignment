@@ -5,7 +5,6 @@ public class Client {
 
         Date d1 = new Date (12, 9, 2024);
         Time t1 = new Time (6, 15, 59);
-        DateTime dt1 = new DateTime(d1, t1);
         
         User john = new User(12345678, "John Doe", "john.doe@gmail.com", "jontron3000");
         System.out.println(john.studentId + " | " + john.username + " | " + john.email + " | " + john.password);
@@ -17,12 +16,12 @@ public class Client {
 
         //group message
         ArrayList<User> a = new ArrayList<User>(Arrays.asList(jane, sam, paul));
-        Message gc = new Message(john, a, dt1, "hru >,<");
+        Message gc = new Message(john, a, d1, t1, "hru >,<");
         System.out.println(gc.groupMessage());
 
 
         //private message
-        Message dm = new Message(paul, jane, dt1, "have u done the quiz yet");
+        Message dm = new Message(paul, jane, d1, t1, "have u done the quiz yet");
         System.out.println(dm.privMessage());
         
 
@@ -37,7 +36,7 @@ public class Client {
         
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages
         Channel test = new Channel("Study", "COMP1010");
-        Message firstMes = new Message(test, kate, "how was the prac?",  dt1);
+        Message firstMes = new Message(test, kate, "how was the prac?",  d1, t1);
         System.out.println(firstMes.channelMessage());
 
     }
