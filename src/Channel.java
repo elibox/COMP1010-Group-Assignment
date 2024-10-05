@@ -29,4 +29,21 @@ public class Channel {
             messages.remove(idx);
         }
     }
+
+    //find all message from specific user
+    public ArrayList<Message> findMessageByUser(User user) {
+        ArrayList<Message> userMessages = new ArrayList<>();
+        for(int i=0; i<messages.size(); i++) {
+            if(messages.get(i).sentFrom == user) {
+                userMessages.add(messages.get(i));
+            }
+        }
+        return userMessages;  
+    }
+
+    //find messages about topic
+    public String getTopic() {
+        return topic;
+    }
+
 }
