@@ -6,6 +6,8 @@ public class Time {
         this.minute = minute;
         this.second = second;
     }
+
+    //future idea: minutes/seconds increase over time by a random amount
     
     public String toString() {
         return hour+":"+minute+":"+second;

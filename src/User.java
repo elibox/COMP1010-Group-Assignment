@@ -5,7 +5,7 @@ public class User {
     long studentId;
     String email, password;
     String username;
-    ArrayList<Friend> friendsList;
+    ArrayList<User> friendsList;
     ArrayList<Subscription> subscriptions;
 
     /* think we should remove the info we dont want shown from the paramenters
@@ -42,14 +42,22 @@ public class User {
     }
 
     //adding friends
-    public void addFriend(Friend f) {
-        friendsList.add(f);
+    public void addFriend(User friend) {
+        if (friendsList.contains(friend) == false) {
+            friendsList.add(friend);
+            System.out.println(friend+" has been added to the friends list");
+        } else {
+            System.out.println("Error: failed to add "+friend+" to friends list");
+        }
     }
 
     //removing friends
-    public void removeFriend(int idx) {
-        if(idx>=0 && idx<friendsList.size()) {
-            friendsList.remove(idx);
+    public void removeFriend(User friend) {
+        if (friendsList.contains(friend) == true) {
+            friendsList.remove(friend);
+            System.out.println(friend+" has been removed from the friends list");
+        } else {
+            System.out.println("Error: failed to remove "+friend+" from friends list");
         }
     }
 

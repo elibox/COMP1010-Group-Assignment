@@ -65,7 +65,7 @@ public class Message {
             System.out.println(a+" was removed from the group chat "+gcMembers+" at "+dateTimeToString());
         } else {
             //remove if deemed necessary, thought it'd help with debugging
-            System.out.println("Error: failed to remove "+a);
+            System.out.println("Error: failed to remove "+a+" from group chat");
         }
     }
 
