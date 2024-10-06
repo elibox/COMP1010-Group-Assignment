@@ -1,14 +1,26 @@
 import java.util.Scanner;
 
 public class Signin {
+    public String username;
+    public String password;
 
     public Signin() {
         Scanner demoScanner = new Scanner(System.in);
-        System.out.println("Enter username");
-    
-        String username = demoScanner.nextLine();
-        System.out.println("Username is: " + username);
-    
+
+        System.out.println("Enter username:");
+        this.username = demoScanner.nextLine();
+
+        System.out.println("Enter password:");
+        this.password = demoScanner.nextLine();
+
+        System.out.println("Username is: " + this.username);
+        System.out.println("Password is: " + this.password);
+
         demoScanner.close();
+    }
+
+    public static void main(String[] args) {
+        Signin signInInstance = new Signin();
+        System.out.println("Sign in details for " + signInInstance.username);
     }
 }
