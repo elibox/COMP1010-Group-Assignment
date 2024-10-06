@@ -1,9 +1,8 @@
 import java.util.*;
 
 public class Message {
-    public User sentFrom;
-    public User sentTo;
-
+    public User sentFrom, sentTo;
+    
     public Channel channel;
     public String message;
     public Date date;

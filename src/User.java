@@ -3,8 +3,7 @@ import java.util.*;
 public class User {
 
     long studentId;
-    String email, password;
-    String username;
+    String email, password, username;
     ArrayList<User> friendsList;
     ArrayList<User> blockList;
     ArrayList<Subscription> subscriptions;
