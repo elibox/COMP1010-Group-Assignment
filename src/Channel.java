@@ -45,5 +45,4 @@ public class Channel {
     public String getTopic() {
         return topic;
     }
-
 }

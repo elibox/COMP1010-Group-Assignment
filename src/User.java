@@ -30,7 +30,7 @@ public class User {
         this.password = password;
     }
 
-    //toString to return just the username of the user
+    //toString to return just the username of the user (remove?)
     public String toString() {
         return username;
     }
@@ -38,12 +38,17 @@ public class User {
     //adding subscriptions
     public void subscribeTo(Subscription s) {
         subscriptions.add(s);
+        System.out.println(this.username+" has subscribed to "+s.channel.toString());
     }
 
     //removing subscriptions
     public void unsubscribeFrom(int idx) {
         if(idx>=0 && idx<subscriptions.size()) {
+            Subscription s = subscriptions.get(idx);
             subscriptions.remove(idx);
+            System.out.println(this.username+" has unsubscribed from "+s.channel.toString());
+        } else {
+            System.out.println("Error: failed to unsubscribe from channel");
         }
     }
 
