@@ -24,4 +24,3 @@ public class Signin {
         System.out.println("Sign in details for " + signInInstance.username);
     }
 }
-}
