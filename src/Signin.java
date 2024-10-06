@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+//test by dora
 public class Signin {
     public String username;
     public String password;
@@ -23,4 +23,5 @@ public class Signin {
         Signin signInInstance = new Signin();
         System.out.println("Sign in details for " + signInInstance.username);
     }
+}
 }
