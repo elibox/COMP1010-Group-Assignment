@@ -6,6 +6,11 @@ public class Subscription {
         this.user = user;
         this.channel = channel;
     }
+
+    public Subscription(Channel channel) {
+        this.channel = channel;
+    }
+
     
     /*message for when user subscribed to channel? or idk if this could just be a printline 
     under a subscribeTo method in user?

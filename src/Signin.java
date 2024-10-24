@@ -1,8 +1,7 @@
 import java.util.Scanner;
 //test by dora
 public class Signin {
-    public String username;
-    public String password;
+    public String username, password;
 
     public Signin() {
         Scanner demoScanner = new Scanner(System.in);
