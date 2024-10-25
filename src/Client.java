@@ -22,18 +22,14 @@ public class Client {
         //group message
         ArrayList<User> a = new ArrayList<User>(Arrays.asList(jane, sam, paul));
         Message gc = new Message(john, a, d1, t1, "hru >,<");
-        System.out.println(gc.groupMessage());
+        System.out.println(gc.displayGroupMessage());
 
 
         //private message
         Message dm = new Message(paul, jane, d1, t1, "have u done the quiz yet");
-        System.out.println(dm.privMessage());
+        System.out.println(dm.displayPrivMessage());
         
-
-        //group chat - add and remove user
         User kate = new User(98888192, "katekate", "kate@gmail.com", "password!");
-        gc.addUser(kate);
-        gc.removeUser(kate);
 
 
         //friend list - add and remove user
@@ -44,7 +40,7 @@ public class Client {
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages
         Channel test = new Channel("Study", "COMP1010");
         Message firstMes = new Message(test, kate, "how was the prac?",  d1, t1);
-        System.out.println(firstMes.channelMessage());
+        System.out.println(firstMes.displayChannelMessage());
 
         Scanner demoScanner = new Scanner(System.in);
         System.out.println("Enter username");

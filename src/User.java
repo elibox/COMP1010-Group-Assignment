@@ -23,14 +23,6 @@ public class User {
 
     }
 
-    //constructor that returns just the username
-    public User(String username) {
-        this.username = username;
-        this.friendsList = new ArrayList<>();
-        this.blockList = new ArrayList<>();
-        this.subscriptions = new ArrayList<>();
-    }
-
     //toString to return just the username of the user (remove?)
     public String toString() {
         return username;

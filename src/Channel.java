@@ -60,7 +60,7 @@ public class Channel {
     //display all messages
     public void displayAllMessages() {
         for(int i=0; i<messages.size(); i++) {
-            System.out.println(messages.get(i).channelMessage());
+            System.out.println(messages.get(i).displayChannelMessage());
         }
     }
 }
