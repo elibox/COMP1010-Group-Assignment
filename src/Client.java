@@ -38,7 +38,7 @@ public class Client {
 
         //friend list - add and remove user
         john.addFriend(sam);
-        john.displayFriendList();
+        john.displayFriendsList();
 
         
         //sending message in a channel? - again probs need to add a method in user so user can directly send messages

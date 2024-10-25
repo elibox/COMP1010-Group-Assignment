@@ -37,7 +37,7 @@ public class User {
     }
 
     //adding subscriptions
-    public void subscribeTo(Channel channel) {
+    public void subscribeToChannel(Channel channel) {
         //checking if user is subscribed to channel already
         for(int i=0; i<subscriptions.size(); i++) {
             Subscription subscription = subscriptions.get(i);
@@ -52,7 +52,7 @@ public class User {
     }
 
     //removing subscriptions
-    public void unsubscribeFrom(int idx) {
+    public void unsubscribeFromChannel(int idx) {
         if(idx>=0 && idx<subscriptions.size()) {
             Subscription subscription = subscriptions.get(idx);
             subscriptions.remove(idx);
@@ -63,7 +63,7 @@ public class User {
     }
 
     //displaying subscriptions
-    public void displaySubscriptions() {
+    public void displayChannelSubscriptions() {
         if(!subscriptions.isEmpty()) {
             System.out.print("Subscriptions: ");
             for(int i=0; i<subscriptions.size(); i++) {
@@ -97,7 +97,7 @@ public class User {
 
     //displaying friend list (extremely scuffed)
     //to do: rework the loop into a recursive function
-    public void displayFriendList() {
+    public void displayFriendsList() {
         if(!friendsList.isEmpty()) {
             System.out.print("Friend List: ");
             for(int i=0; i<friendsList.size(); i++) {
