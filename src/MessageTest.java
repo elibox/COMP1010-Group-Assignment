@@ -12,7 +12,7 @@ public class MessageTest {
         groupChatMembers.add(sender);
         groupChatMembers.add(recipient);
         String messageContents = "Hi there 3-3";
-        Message message = new Message(sender, messageContents, new Date(), new Time(), channel, groupChatMembers, recipient);
+        Message message = new Message(sender, messageContents, channel, groupChatMembers, recipient);
         assertEquals(sender, message.sender);
         assertEquals(recipient, message.recipient);
         assertEquals(messageContents, message.message);
@@ -24,7 +24,7 @@ public class MessageTest {
         User sender = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         Channel channel = new Channel("Study", "Computer Science");
         ArrayList<Message> messages = new ArrayList<>();
-        Message message = new Message(sender, "Have you done the quiz yet?", new Date(), new Time(), channel, null, null);
+        Message message = new Message(sender, "Have you done the quiz yet?", channel, null, null);
 
         message.sendChannelMessage(messages);
         assertEquals(1, messages.size());
@@ -43,7 +43,7 @@ public class MessageTest {
         User recipient = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
         ArrayList<Message> messages = new ArrayList<>();
         sender.blockList.add(recipient);
-        Message message = new Message(sender, "hi jane, hru", new Date(), new Time(), null, null, recipient);
+        Message message = new Message(sender, "hi jane, hru", null, null, recipient);
 
         //attempting to send message to a blocked user
         message.sendPrivateMessage(messages);
@@ -66,7 +66,7 @@ public class MessageTest {
         groupChatMembers.add(recipient);
 
         ArrayList<Message> messages = new ArrayList<>();
-        Message message = new Message(sender, "hey guys, wanna play roblox", new Date(), new Time(), null, groupChatMembers, null);
+        Message message = new Message(sender, "hey guys, wanna play roblox", null, groupChatMembers, null);
 
         //sending a group message
         message.sendGroupMessage(messages);
@@ -84,7 +84,7 @@ public class MessageTest {
     public void testDeleteMessage() {
         User sender = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         ArrayList<Message> messages = new ArrayList<>();
-        Message message = new Message(sender, "Hi.", new Date(), new Time(), null, null, null);
+        Message message = new Message(sender, "Hi.", null, null, null);
 
         messages.add(message);
         assertEquals(1, messages.size());
@@ -98,7 +98,7 @@ public class MessageTest {
         User groupChatOwner = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         ArrayList<User> groupChatMembers = new ArrayList<>();
         groupChatMembers.add(groupChatOwner);
-        Message message = new Message(groupChatOwner, "welcome to the gc!", new Date(), new Time(), null, groupChatMembers, null);
+        Message message = new Message(groupChatOwner, "welcome to the gc!", null, groupChatMembers, null);
 
         User newMember = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
         message.addUserToGroupChat(newMember);
@@ -122,7 +122,7 @@ public class MessageTest {
         groupChatMembers.add(groupChatOwner);
         groupChatMembers.add(member);
         groupChatMembers.add(otherMember);
-        Message message = new Message(groupChatOwner, "bye bye!", new Date(), new Time(), null, groupChatMembers, null);
+        Message message = new Message(groupChatOwner, "bye bye!", null, groupChatMembers, null);
         
         assertEquals(3, message.groupChatMembers.size());
 

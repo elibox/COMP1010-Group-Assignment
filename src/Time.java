@@ -3,7 +3,7 @@ import java.time.LocalTime;
 public class Time {
     public int hour, minute, second;
 
-    //constructor to get current time
+    //constructor to return the current time
     public Time() {
         LocalTime currentTime = LocalTime.now();
         this.hour = currentTime.getHour();

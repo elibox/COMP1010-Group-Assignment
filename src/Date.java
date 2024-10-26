@@ -3,7 +3,7 @@ import java.time.LocalDate;
 public class Date {
     public int day, month, year;
 
-    //date constuctor to get current date
+    //date constuctor to return the current date
     public Date() {
         LocalDate currentDate = LocalDate.now();
         this.day = currentDate.getDayOfMonth();

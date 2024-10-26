@@ -7,11 +7,6 @@ public class User {
     public ArrayList<User> blockList;
     public ArrayList<Subscription> subscriptions;
 
-    /* to do:
-        - boolean for blocked users
-        - unable to see blocked users' messages
-     */
-
     public User(long studentId, String username, String email, String password) {
         this.studentId = studentId;
         this.username = username;
@@ -20,10 +15,8 @@ public class User {
         this.friendsList = new ArrayList<>();
         this.blockList = new ArrayList<>();
         this.subscriptions = new ArrayList<>();
-
     }
 
-    //toString to return just the username of the user (remove?)
     public String toString() {
         return username;
     }

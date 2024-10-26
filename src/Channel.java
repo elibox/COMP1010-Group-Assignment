@@ -14,7 +14,7 @@ public class Channel {
         this.messages = new ArrayList<>();
     }
 
-    //toString to print channel topic/name (can be deleted?)
+    //toString to print channel topic-name
     public String toString() {
         return topic+" - "+name;
     }
@@ -40,11 +40,6 @@ public class Channel {
             }
         }
         return userMessages;  
-    }
-
-    //find messages about topic
-    public String getTopic() {
-        return topic;
     }
 
     //check if a message has already been sent in a channel

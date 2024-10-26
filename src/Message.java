@@ -9,7 +9,7 @@ public class Message {
     public ArrayList<User> groupChatMembers;
 
     //consctuctor
-    public Message(User sender, String messageContents, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User recipient) {
+    public Message(User sender, String messageContents, Channel channel, ArrayList<User> groupChatMembers, User recipient) {
         this.sender = sender;
         this.message = messageContents;
         this.channel = channel;
@@ -65,7 +65,7 @@ public class Message {
         System.out.println("Message has been deleted");
     }
 
-    //remove messages (helper mefor user to delete messages)
+    //remove messages (helper to delete messages)
     public void removeMessage(ArrayList<Message> messages, Message message) {
         if(messages.contains(message)) {
             messages.remove(message);
@@ -120,14 +120,26 @@ public class Message {
             groupChatMembers.remove(user);
             System.out.println(user.username+" was removed from the group chat with: "+getGroupChatMemberNames()+" at "+dateTimeToString());
         } else {
-            //remove if deemed necessary, thought it'd help with debugging
             System.out.println("Error: failed to remove "+user.username+" from group chat");
         }
     }
     
     //helper string for datetime
-    //i might rework this later, i feel like i'm gonna run into issues with this - claire
     public String dateTimeToString() {
         return date.toString()+", "+time.toString();
+    }
+
+    //helper string to manage displaying of the different message types
+    public String toString() {
+        if(channel != null) {
+            return displayChannelMessage();
+        }
+        if(recipient != null) {
+            return displayPrivateMessage();
+        }
+        if(groupChatMembers != null && groupChatMembers.size() > 1) {
+            return displayGroupMessage();
+        }
+        return "Error: message is invalid.";
     }
 }
