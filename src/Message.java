@@ -9,9 +9,9 @@ public class Message {
     public ArrayList<User> groupChatMembers;
 
     //consctuctor
-    public Message(User sender, String message, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User recipient) {
+    public Message(User sender, String messageContents, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User recipient) {
         this.sender = sender;
-        this.message = message;
+        this.message = messageContents;
         this.channel = channel;
         this.groupChatMembers = groupChatMembers;
         this.recipient = recipient;
@@ -54,6 +54,11 @@ public class Message {
         }
     }
 
+    //add message to list of messages
+    public void addMessage(ArrayList<Message> messages, Message message) {
+        messages.add(message);
+    }
+
     //deleting messages
     public void deleteMessage(ArrayList<Message> messages) {
         removeMessage(messages, this);
@@ -67,9 +72,9 @@ public class Message {
         }
     }
 
-    //add message to list of messages
-    public void addMessage(ArrayList<Message> messages, Message message) {
-        messages.add(message);
+    //clear all messages
+    public void clearMessages(ArrayList<Message> messages) {
+        messages.clear();
     }
 
     //string to help display channel messages
