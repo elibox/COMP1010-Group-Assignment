@@ -10,14 +10,8 @@ public class Time {
         this.minute = currentTime.getMinute();
         this.second = currentTime.getSecond();
     }
-    
-    public Time(int hour, int minute, int second) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-    }
-    
+
     public String toString() {
-        return String.format("%02d", hour)+":"+String.format("%02d", minute)+":"+String.format("%02d", second);
+        return String.format("%02d:%02d:%02d", hour, minute, second);
    } 
 }

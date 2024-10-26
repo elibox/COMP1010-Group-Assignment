@@ -1,67 +1,86 @@
 import java.util.*;
 
 public class Message {
-    public User sentFrom, sentTo;
+    public User sender, receiver;
     public Channel channel;
     public String message;
     public Date date;
     public Time time;
     public ArrayList<User> groupChatMembers;
 
-    //i think having 3 constructors is a bit pointless - nawal
-    public Message(User sentFrom, String message, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User sentTo) {
-        this.sentFrom = sentFrom;
+    //consctuctor
+    public Message(User sender, String message, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User receiver) {
+        this.sender = sender;
         this.message = message;
-        this.date = date;
-        this.time = time;
         this.channel = channel;
         this.groupChatMembers = groupChatMembers;
-        this.sentTo = sentTo;
+        this.receiver = receiver;
+        //current date/time
+        this.date = new Date();
+        this.time = new Time();
     }
 
     //sending channel messages
-    public void sendChannelMessage() {
-
+    public void sendChannelMessage(ArrayList<Message> messages) {
+        if(channel != null) {
+            addMessage(messages, this);
+            System.out.println(displayChannelMessage());
+        } else {
+            System.out.println("Error: failed to send message as channel does not exist");
+        }
     }
 
     //sending private messages
-    public void sendPrivateMessage() {
-
+    public void sendPrivateMessage(ArrayList<Message> messages) {
+        if(receiver != null) {
+            addMessage(messages, this);
+            System.out.println(displayPrivateMessage());
+        } else {
+            System.out.println("Error: failed to send message as user does not exist");
+        }
     }
 
     //sending group messages
-    public void sendGroupMessage() {
-
+    public void sendGroupMessage(ArrayList<Message> messages) {
+        if(groupChatMembers != null && groupChatMembers.size() > 1) {
+            addMessage(messages, this);
+            System.out.println(displayGroupMessage());
+        } else {
+            System.out.println("Error: group chat must have more than one member to send a message");
+        }
     }
 
     //deleting messages
-    public void deleteMessge() {
+    public void deleteMessage(ArrayList<Message> messages) {
+        removeMessage(messages, this);
+        System.out.println("Message has been deleted");
+    }
 
+    //remove messages (helper mefor user to delete messages)
+    public void removeMessage(ArrayList<Message> messages, Message message) {
+        if(messages.contains(message)) {
+            messages.remove(message);
+        }
     }
 
     //add message to list of messages
-    public void addMessage() {
-
+    public void addMessage(ArrayList<Message> messages, Message message) {
+        messages.add(message);
     }
 
-    //remove messages from the list of messages
-    public void removeMessage() {
-        
-    }
-
-    //displaying channel messages
+    //string to help display channel messages
     public String displayChannelMessage() {
-        return channel+" | "+sentFrom.username+" | "+dateTimeToString()+": "+message;
+        return "["+channel.toString()+"] "+sender.username+" at "+dateTimeToString()+": "+message;
     }
 
-    //displaying private messages
-    public String displayPrivMessage() {
-        return sentFrom.username+" sent a private message to "+sentTo.username+" at "+dateTimeToString()+": "+message;
+    //string to help display private messages
+    public String displayPrivateMessage() {
+        return sender.username+" sent a private message to "+receiver.username+" at "+dateTimeToString()+": "+message;
     }
 
-    //displaying group messages
+    //string to help display group messages
     public String displayGroupMessage() {
-        return sentFrom.username+" sent a group message to "+getGroupChatMemberNames()+ " at "+dateTimeToString()+": "+message;
+        return sender.username+" sent a group message to ["+getGroupChatMemberNames()+"] at "+dateTimeToString()+": "+message;
     }
 
     //display names of all groupchat members
@@ -80,7 +99,7 @@ public class Message {
     public void addUserToGroupChat(User user) {
         if(!groupChatMembers.contains(user)) {
             groupChatMembers.add(user);
-            System.out.println(user.username+" was added to the group chat with: "+getGroupChatMemberNames()+" at "+dateTimeToString());
+            System.out.println(user.username+" was added to the group chat with ["+getGroupChatMemberNames()+"] at "+dateTimeToString());
         } else {
             System.out.println("Error: "+user.username+" is already in the group chat");
         }
@@ -88,7 +107,7 @@ public class Message {
     
     //removing user from a group chat
     public void removeUserFromGroupChat(User user) {
-        if (groupChatMembers.contains(user) && groupChatMembers.size()>2) {
+        if (groupChatMembers.contains(user) && groupChatMembers.size() > 2) {
             groupChatMembers.remove(user);
             System.out.println(user.username+" was removed from the group chat with: "+getGroupChatMemberNames()+" at "+dateTimeToString());
         } else {
@@ -102,35 +121,4 @@ public class Message {
     public String dateTimeToString() {
         return date.toString()+", "+time.toString();
     }
-
-        //channel Message (possibly remove)
-    public Message(Channel channel, User sentFrom, String message, Date date, Time time) {
-        this.channel = channel;
-        this.sentFrom = sentFrom;
-        this.message = message;
-        this.date = date;
-        this.time = time; 
-        //System.out.println(channel+" | "+sentFrom+" | "+dateTimeToString()+": "+message);
-    }
-
-    //private message (possibly remove)
-    public Message(User sentFrom, User sentTo, Date date, Time time, String message) {
-        this.message = message;
-        this.sentFrom = sentFrom;
-        this.sentTo = sentTo;
-        this.date = date;
-        this.time = time;
-    }
-
-    //group message (possibly remove)
-    //maybe group chats can have names? just an idea -- claire
-    public Message(User sentFrom, ArrayList<User> groupChatMembers, Date date, Time time, String message) {
-        this.message = message;
-        this.sentFrom = sentFrom;
-        this.groupChatMembers = groupChatMembers;
-        this.date = date;
-        this.time = time;
-    }
-
-    
 }

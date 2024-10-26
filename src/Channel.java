@@ -14,7 +14,7 @@ public class Channel {
         this.messages = new ArrayList<>();
     }
 
-    //toString to print channel topic/name
+    //toString to print channel topic/name (can be deleted?)
     public String toString() {
         return topic+" - "+name;
     }
@@ -35,7 +35,7 @@ public class Channel {
     public ArrayList<Message> findMessageByUser(User user) {
         ArrayList<Message> userMessages = new ArrayList<>();
         for(int i=0; i<messages.size(); i++) {
-            if(messages.get(i).sentFrom == user) {
+            if(messages.get(i).sender == user) {
                 userMessages.add(messages.get(i));
             }
         }
