@@ -5,7 +5,6 @@ import org.junit.Test;
 public class UserTest {
     @Test
     public void testUser() {
-        //test for the main constructor in the user class
         User user = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         assertEquals(12345678, user.studentId);
         assertEquals("j0hN", user.username);
@@ -17,7 +16,6 @@ public class UserTest {
     }
 
     @Test
-    //testing subscribeToChannel() function
     public void testSubscribeToChannel() {
         User user = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         Channel channel = new Channel("Study", "Computer Science");
@@ -32,7 +30,6 @@ public class UserTest {
     }
 
     @Test
-    //testing UnsubscribeFromChannel() function
     public void testUnsubscribeFromChannel() {
         User user = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         Channel channel = new Channel("Study", "Computer Science");
@@ -47,7 +44,6 @@ public class UserTest {
     }
 
     @Test
-    //testing addFriend() function
     public void testAddFriend() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
@@ -61,7 +57,6 @@ public class UserTest {
     }
 
     @Test
-    //testing removeFriend() function
     public void testRemoveFriend() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
@@ -76,7 +71,6 @@ public class UserTest {
     }
 
     @Test
-    //testing blockUser() function
     public void testBlockUser() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
@@ -90,7 +84,6 @@ public class UserTest {
     }
 
     @Test
-    //testing unblockUser() function
     public void testUnblockUser() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
