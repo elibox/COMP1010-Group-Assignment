@@ -132,8 +132,10 @@ public class User {
         } else {
             System.out.println("Error: no users have been blocked");
         }
-    }   
+    }
 
-    /*i think we need to set up methods for users to send messages and in here not really sure tho - nawal */
-
+    //checker to see if user is blocked
+    public boolean isBlockedBy(User other) {
+        return blockList.contains(other) || other.blockList.contains(this);
+    }
 }

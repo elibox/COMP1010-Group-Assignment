@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Message {
-    public User sender, receiver;
+    public User sender, recipient;
     public Channel channel;
     public String message;
     public Date date;
@@ -9,12 +9,12 @@ public class Message {
     public ArrayList<User> groupChatMembers;
 
     //consctuctor
-    public Message(User sender, String message, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User receiver) {
+    public Message(User sender, String message, Date date, Time time, Channel channel, ArrayList<User> groupChatMembers, User recipient) {
         this.sender = sender;
         this.message = message;
         this.channel = channel;
         this.groupChatMembers = groupChatMembers;
-        this.receiver = receiver;
+        this.recipient = recipient;
         //current date/time
         this.date = new Date();
         this.time = new Time();
@@ -32,11 +32,15 @@ public class Message {
 
     //sending private messages
     public void sendPrivateMessage(ArrayList<Message> messages) {
-        if(receiver != null) {
-            addMessage(messages, this);
-            System.out.println(displayPrivateMessage());
+        if(recipient != null) {
+            if(sender.isBlockedBy(recipient)) {
+                System.out.println("Error: cannot send private message to "+recipient.username+" because you have been blocked or you have blocked them");
+            } else { 
+                addMessage(messages,this);
+                System.out.println(displayPrivateMessage()); 
+            }
         } else {
-            System.out.println("Error: failed to send message as user does not exist");
+            System.out.println("Error: failed to send message as this user does");
         }
     }
 
@@ -75,7 +79,7 @@ public class Message {
 
     //string to help display private messages
     public String displayPrivateMessage() {
-        return sender.username+" sent a private message to "+receiver.username+" at "+dateTimeToString()+": "+message;
+        return sender.username+" sent a private message to "+recipient.username+" at "+dateTimeToString()+": "+message;
     }
 
     //string to help display group messages
