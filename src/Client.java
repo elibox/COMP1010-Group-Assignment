@@ -8,13 +8,6 @@ public class Client {
     public static User loggedInUser;
 
     public static void main(String[] args) {
-        //test users to send messages to/create groupchats with
-       /*
-        User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
-        User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
-        User user3 = new User(12345680, "jojo", "jojo.dodo@gmail.com", "owowo001");
-        */
-
         loadUsersFromFile();
         Scanner scanner = new Scanner(System.in);
 
@@ -46,11 +39,13 @@ public class Client {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Please choose an option: ");
+        System.out.print("Please select one of the options");
     }
 
     public static int userChoice(Scanner scanner) {
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
     }
 
     public static void loadUsersFromFile() {
@@ -70,6 +65,16 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Error: loading user data.");
         }
+        if(users.isEmpty()) {
+            testUsers();
+        }
+    }
+
+    public static void testUsers() {
+        System.out.println("Cureent users!");
+        users.add(new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000"));
+        users.add(new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999"));
+        users.add(new User(12345680, "jojo", "jojo.dodo@gmail.com", "owowo001"));
     }
 
     public static void saveUsersToFile() {
@@ -183,7 +188,7 @@ public class Client {
         System.out.println("6. Unblock a User");
         System.out.println("7. Unsubscribe from a Channel");
         System.out.println("8. Log Out");
-        System.out.print("Choose an option: ");
+        System.out.print("Please select one of the options");
     }
 
     public static void subscribeToChannel(Scanner scanner) {

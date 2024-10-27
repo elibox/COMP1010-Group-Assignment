@@ -153,20 +153,20 @@ public class User {
 
     //recursive method - unblocking someone
     public void unblockUser(User toUnblock) {
-        blockList = unblockUserHelper(blockList, toUnblock);
-        BlockNode originalBlockList = blockList;
-        if(originalBlockList == blockList) {
+        BlockNode newBlockList =  unblockUserHelper(blockList, toUnblock);
+        if(newBlockList != blockList) {
+            blockList = newBlockList;
+            System.out.println(toUnblock+" has been unblocked");
+        } else {
             System.out.println("Error: failed to unblock "+toUnblock);
         }
     }
-    //helper
+    //helper method
     public BlockNode unblockUserHelper(BlockNode node, User toUnblock) {
         if(node == null) {
-            System.out.println("Error: "+toUnblock+" has been unblocked");
             return null;
         }
         if(node.blockedUser == toUnblock) {
-            System.out.println(toUnblock+"has been unblocked");
             return node.next;
         } else {
             node.next = unblockUserHelper(node.next, toUnblock);
