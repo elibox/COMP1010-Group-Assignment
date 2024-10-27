@@ -122,7 +122,7 @@ public class MessageTest {
         groupChatMembers.add(groupChatOwner);
         groupChatMembers.add(member);
         groupChatMembers.add(otherMember);
-        Message message = new Message(groupChatOwner, "bye bye!", null, groupChatMembers, null);
+        Message message = new Message(groupChatOwner, "bye bye!", null,  groupChatMembers, null);
         
         assertEquals(3, message.groupChatMembers.size());
 

@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Client {
-    public static final String USER_DATA_FILE = "users.txt";
+    public static final String USER_DATA_FILE = "bigMacs.txt";
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Message> messages = new ArrayList<>();
     public static User loggedInUser;
@@ -15,16 +15,21 @@ public class Client {
             displayMenu();
             int choice = userChoice(scanner);
             
-            if(choice == 1) {
-                login(scanner);
-            } else if(choice == 2) {
-                register(scanner);
-            } else if(choice == 3) {
-                saveUsersToFile();
-                System.exit(0);
-            } else {
-                System.out.println("Error: this option is not valid, please try again.");
+            switch(choice) {
+                case 1:
+                    login(scanner);
+                    break;
+                case 2:
+                    register(scanner);
+                    break;
+                case 3:
+                    saveUsersToFile();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Error: Option is not valid, please try again.");
             }
+            
             if (loggedInUser != null) {
                 userMenu(scanner);
             }
@@ -36,7 +41,7 @@ public class Client {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Please choose an option");
+        System.out.print("Please choose an option: ");
     }
 
     public static int userChoice(Scanner scanner) {
@@ -132,6 +137,7 @@ public class Client {
             displayUserMenu();
             int choice = userChoice(scanner);
 
+<<<<<<< HEAD
             if(choice == 1) {
                 subscribeToChannel(scanner);
             } else if(choice == 2) {
@@ -152,20 +158,38 @@ public class Client {
                 break;
             } else {
                 System.out.println("Error: this option is not valid, please try again");
+=======
+            switch (choice) {
+                case 1:
+                    subscribeToChannel(scanner);
+                    break;
+                case 2:
+                    sendMessage(scanner);
+                    break;
+                case 3:
+                    blockUser(scanner);
+                    break;
+                case 4:
+                    addFriend(scanner);
+                    break;
+                case 5:
+                    loggedInUser = null;
+                    System.out.println("Logged out successfully.");
+                    return;
+                default:
+                    System.out.println("Error: option is not valid, please try again.");
+>>>>>>> d366e9e4590420d19645510f3c2ef497f9ecc665
             }
         }
     }
 
     public static void displayUserMenu() {
         System.out.println("\nUser Menu:");
-        System.out.println("1. Subscribe to a Channel");
-        System.out.println("2. Send a Message");
-        System.out.println("3. Block a User");
-        System.out.println("4. Add a User");
-        System.out.println("5. Remove a Friend");
-        System.out.println("6. Unblock User");
-        System.out.println("7. Unsubscribe from a Channel");
-        System.out.println("8. Log Out");
+        System.out.println("1. Subscribe to Channel");
+        System.out.println("2. Send Message");
+        System.out.println("3. Block User");
+        System.out.println("4. Add User");
+        System.out.println("5. Log Out");
         System.out.print("Choose an option: ");
     }
 
@@ -191,6 +215,7 @@ public class Client {
         int messageType = scanner.nextInt();
         scanner.nextLine();
 
+<<<<<<< HEAD
         if(messageType == 1) {
             sendChannelMessage(scanner);
         } else if(messageType == 2) {
@@ -199,6 +224,20 @@ public class Client {
             sendGroupMessage(scanner);
         } else {
             System.out.println("Error: this option is not valid, please try again.");
+=======
+        switch (messageType) {
+            case 1:
+                sendChannelMessage(scanner);
+                break;
+            case 2:
+                sendPrivateMessage(scanner);
+                break;
+            case 3:
+                sendGroupMessage(scanner);
+                break;
+            default:
+                System.out.println("Error: invalid message type chosen");
+>>>>>>> d366e9e4590420d19645510f3c2ef497f9ecc665
         }
     }
 
@@ -208,7 +247,7 @@ public class Client {
         System.out.print("Enter your message: ");
         String messageContent = scanner.nextLine();
 
-        Channel channel = new  Channel(channelName, channelName);
+        Channel channel = new Channel(channelName, channelName);
         Message message = new Message(loggedInUser, messageContent, channel, null, null);
         message.sendChannelMessage(messages);
     }
@@ -225,7 +264,7 @@ public class Client {
             message.sendPrivateMessage(messages);
         } else {
             System.out.println("Error: User not found.");
-        }
+        } 
     }
 
     public static void sendGroupMessage(Scanner scanner) {
@@ -304,7 +343,7 @@ public class Client {
     public static User findUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            if (user.username.equals(username)) {
+            if (user.username == username) {
                 return user;
             }
         }
