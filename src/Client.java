@@ -129,19 +129,19 @@ public class Client {
             displayUserMenu();
             int choice = userChoice(scanner);
 
-            switch(choice) {
-                case 1:
-                    login(scanner);
-                    break;
-                case 2:
-                    register(scanner);
-                    break;
-                case 3:
-                    saveUsersToFile();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Error: Option is not valid, please try again.");
+            if(choice == 1) {
+                subscribeToChannel(scanner);
+            } else if(choice == 2) {
+                sendMessage(scanner);
+            } else if(choice == 3) {
+                blockUser(scanner);
+            } else if(choice == 4) {
+                addFriend(scanner);
+            } else if(choice == 5) {
+                loggedInUser = null;
+                System.out.println("Logged out sucessfully");
+            } else {
+                System.out.println("Error: this option is not valid, please try again");
             }
         }
     }
