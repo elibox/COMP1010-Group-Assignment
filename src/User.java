@@ -31,7 +31,7 @@ public class User {
                 return;
             }
         }
-        Subscription newSubscription = new Subscription(channel);
+        Subscription newSubscription = new Subscription(null, channel);
         subscriptions.add(newSubscription);
         System.out.println(this.username+" has subscribed to "+ channel.toString());
     }
@@ -81,18 +81,39 @@ public class User {
     }
 
     //displaying friend list (extremely scuffed)
-    //to do: rework the loop into a recursive function
+    // Define a recursive data structure for a linked list of friends
+    // someone said to convert this into a recursive function so i did it - dora
+class FriendNode {
+    String username;
+    FriendNode next;
+
+    public FriendNode(String username, FriendNode next) {
+        this.username = username;
+        this.next = next;
+    }
+
+    //recursive method to display the friends list
     public void displayFriendsList() {
-        if(!friendsList.isEmpty()) {
-            System.out.print("Friend List: ");
-            for(int i=0; i<friendsList.size(); i++) {
-                System.out.print(friendsList.get(i)+" ");
-            }
-            System.out.println();
-        } else {
-            System.out.println("Error: No users have been added");
+        // Print the current friend's name
+        System.out.print(this.username + " ");
+        //displaying the next friend
+        if (this.next != null) {
+            this.next.displayFriendsList();
         }
     }
+
+    //helper method
+    public static void display(FriendNode head) {
+        if (head == null) {
+            System.out.println("Error: No users have been added");
+        } else {
+            System.out.print("Friend List: ");
+            head.displayFriendsList();
+            System.out.println(); 
+        }
+    }
+}
+
 
     //blocking someone
     public void blockUser(User toBlock, ArrayList<User> blockList) {
@@ -114,18 +135,39 @@ public class User {
         }
     }
 
-     //displaying block list
-     public void displayBlockList() {
-        if(!blockList.isEmpty()) {
-            System.out.print("Blocked users: ");
-            for(int i=0; i<blockList.size(); i++) {
-                System.out.print(blockList.get(i)+" ");
-            }
-            System.out.println();
-        } else {
-            System.out.println("Error: no users have been blocked");
+     // Define a recursive data structure for linked list of blocked users
+class BlockedUserNode {
+    String username;
+    BlockedUserNode next;
+
+    public BlockedUserNode(String username, BlockedUserNode next) {
+        this.username = username;
+        this.next = next;
+    }
+
+    //recursive method displaying the block list
+    public void displayBlockList() {
+        //print the current blocked user's name
+        System.out.print(this.username + " ");
+        
+        // If there is a next blocked user, display it recursively
+        if (this.next != null) {
+            this.next.displayBlockList();
         }
     }
+
+    //helper method
+    public static void display(BlockedUserNode head) {
+        if (head == null) {
+            System.out.println("Error: no users have been blocked");
+        } else {
+            System.out.print("Blocked users: ");
+            head.displayBlockList();
+            System.out.println();
+        }
+    }
+}
+
 
     //checker to see if user is blocked
     public boolean isBlockedBy(User other) {
