@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Client {
-    public static final String USER_DATA_FILE = "bigMacs.txt";
+    public static final String USER_DATA_FILE = "users.txt";
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Message> messages = new ArrayList<>();
     public static User loggedInUser;
@@ -138,6 +138,12 @@ public class Client {
             } else if(choice == 4) {
                 addFriend(scanner);
             } else if(choice == 5) {
+                removeFriend(scanner);
+            } else if(choice == 6) {
+                unblockUser(scanner);
+            } else if(choice == 7) {
+                unsubscribeFromChannel(scanner);
+            } else if(choice == 8) {
                 loggedInUser = null;
                 System.out.println("Logged out sucessfully");
             } else {
@@ -148,11 +154,14 @@ public class Client {
 
     public static void displayUserMenu() {
         System.out.println("\nUser Menu:");
-        System.out.println("1. Subscribe to Channel");
-        System.out.println("2. Send Message");
-        System.out.println("3. Block User");
-        System.out.println("4. Add User");
-        System.out.println("5. Log Out");
+        System.out.println("1. Subscribe to a Channel");
+        System.out.println("2. Send a Message");
+        System.out.println("3. Block a User");
+        System.out.println("4. Add a User");
+        System.out.println("5. Remove a Friend");
+        System.out.println("6. Unblock User");
+        System.out.println("7. Unsubscribe from a Channel");
+        System.out.println("8. Log Out");
         System.out.print("Choose an option: ");
     }
 
@@ -293,7 +302,7 @@ public class Client {
     public static User findUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            if (user.username == username) {
+            if (user.username.equals(username)) {
                 return user;
             }
         }
