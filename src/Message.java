@@ -92,18 +92,29 @@ public class Message {
         return sender.username+" sent a group message to ["+getGroupChatMemberNames()+"] at "+dateTimeToString()+": "+message;
     }
 
-    //display names of all groupchat members
-    public String getGroupChatMemberNames() {
-        String memberNames = "";
-        for(int i=0; i<groupChatMembers.size(); i++) {
-            if(i > 0) {
-                memberNames += ", ";
-            }
-            memberNames += groupChatMembers.get(i).username;
-        }
-        return memberNames;
+  //recursive data structure displaying names of all groupchat members
+class UserNode {
+    User user;
+    UserNode next;
+
+    public UserNode(User user, UserNode next) {
+        this.user = user;
+        this.next = next;
     }
 
+    //recursive method to get the group chat member names
+    public String getGroupChatMemberNames() {
+        //getting the current user's name
+        String memberNames = this.user.username;
+
+        //if there is a next node, get the names recursively and append them
+        if (this.next != null) {
+            memberNames += ", " + this.next.getGroupChatMemberNames();
+        }
+
+        return memberNames;
+    }
+}
     //adding user to a group chat
     public void addUserToGroupChat(User user) {
         if(!groupChatMembers.contains(user)) {

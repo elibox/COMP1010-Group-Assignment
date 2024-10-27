@@ -31,16 +31,34 @@ public class Channel {
         }
     }
 
-    //find all message from specific user
+  //recursive data structure for linked list of messages
+class MessageNode {
+    Message message;
+    MessageNode next;
+
+    public MessageNode(Message message, MessageNode next) {
+        this.message = message;
+        this.next = next;
+    }
+
+    //recursive method to find all messages from a specific user
     public ArrayList<Message> findMessageByUser(User user) {
         ArrayList<Message> userMessages = new ArrayList<>();
-        for(int i=0; i<messages.size(); i++) {
-            if(messages.get(i).sender == user) {
-                userMessages.add(messages.get(i));
-            }
+
+        //if the current message is from the specified user, add it to the list
+        if (this.message.sender == user) {
+            userMessages.add(this.message);
         }
-        return userMessages;  
+
+        //if there is a next node, recursively find messages in the rest of the list
+        if (this.next != null) {
+            userMessages.addAll(this.next.findMessageByUser(user));
+        }
+
+        return userMessages;
     }
+}
+
 
     //check if a message has already been sent in a channel
     public boolean messageExists(Message message) {
