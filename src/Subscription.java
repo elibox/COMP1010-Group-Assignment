@@ -1,6 +1,6 @@
 
 public class Subscription {
-    public static void main(String[] args){
+    
     public User user;
     public Channel channel;
     
