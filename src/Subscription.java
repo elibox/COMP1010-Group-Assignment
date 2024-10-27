@@ -1,4 +1,6 @@
+
 public class Subscription {
+    public static void main(String[] args){
     public User user;
     public Channel channel;
     
@@ -6,17 +8,14 @@ public class Subscription {
         this.user = user;
         this.channel = channel;
     }
-    
-    /*message for when user subscribed to channel? or idk if this could just be a printline 
-    under a subscribeTo method in user?
 
-    i can add this later... hopefully my code won't be scuffed -- claire
-
-    public String toString() {
-        return(user.toString()+"has subscribed to"+channel.toString());
-    }*/
-
-    /* to do: 
-     - print a list of channels we're subscribed to
-     */
+    public User getUser(){
+        return user;
+    }
+    public Channel getChannel(){
+        return channel;
+    }
+    public String toString(){
+        return user.toString() + " has subscribed to " + channel+toString();
+    }
 }
