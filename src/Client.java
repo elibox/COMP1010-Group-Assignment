@@ -15,16 +15,21 @@ public class Client {
             displayMenu();
             int choice = userChoice(scanner);
             
-            if(choice == 1) {
-                login(scanner);
-            } else if(choice == 2) {
-                register(scanner);
-            } else if(choice == 3) {
-                saveUsersToFile();
-                System.exit(0);
-            } else {
-                System.out.println("Error: this option is not valid, please try again.");
+            switch(choice) {
+                case 1:
+                    login(scanner);
+                    break;
+                case 2:
+                    register(scanner);
+                    break;
+                case 3:
+                    saveUsersToFile();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Error: Option is not valid, please try again.");
             }
+            
             if (loggedInUser != null) {
                 userMenu(scanner);
             }
@@ -129,19 +134,25 @@ public class Client {
             displayUserMenu();
             int choice = userChoice(scanner);
 
-            if(choice == 1) {
-                subscribeToChannel(scanner);
-            } else if(choice == 2) {
-                sendMessage(scanner);
-            } else if(choice == 3) {
-                blockUser(scanner);
-            } else if(choice == 4) {
-                addFriend(scanner);
-            } else if(choice == 5) {
-                loggedInUser = null;
-                System.out.println("Logged out sucessfully");
-            } else {
-                System.out.println("Error: this option is not valid, please try again");
+            switch (choice) {
+                case 1:
+                    subscribeToChannel(scanner);
+                    break;
+                case 2:
+                    sendMessage(scanner);
+                    break;
+                case 3:
+                    blockUser(scanner);
+                    break;
+                case 4:
+                    addFriend(scanner);
+                    break;
+                case 5:
+                    loggedInUser = null;
+                    System.out.println("Logged out successfully.");
+                    return;
+                default:
+                    System.out.println("Error: option is not valid, please try again.");
             }
         }
     }
@@ -178,16 +189,18 @@ public class Client {
         int messageType = scanner.nextInt();
         scanner.nextLine();
 
-        if(messageType == 1) {
-            sendChannelMessage(scanner);
-        }
-        if(messageType == 2) {
-            sendPrivateMessage(scanner);
-        }
-        if(messageType == 3) {
-            sendGroupMessage(scanner);
-        } else {
-            System.out.println("Error: this option is not valid, please try again.");
+        switch (messageType) {
+            case 1:
+                sendChannelMessage(scanner);
+                break;
+            case 2:
+                sendPrivateMessage(scanner);
+                break;
+            case 3:
+                sendGroupMessage(scanner);
+                break;
+            default:
+                System.out.println("Error: invalid message type chosen");
         }
     }
 
