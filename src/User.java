@@ -17,8 +17,20 @@ public class User {
         this.subscriptions = new ArrayList<>();
     }
 
+    //toString to return username
     public String toString() {
         return username;
+    }
+
+    //method to find a specific user from a list of users
+    public static User findUserByUsername(ArrayList<User> users, String username) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            if (user.username == username) {
+                return user;
+            }
+        }
+        return null;
     }
 
     //adding subscriptions
