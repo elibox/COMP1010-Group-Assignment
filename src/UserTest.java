@@ -10,8 +10,8 @@ public class UserTest {
         assertEquals("j0hN", user.username);
         assertEquals("john.doe@gmail.com", user.email);
         assertEquals("jontron3000", user.password);
-        assertTrue(user.friendsList.isEmpty());
-        assertTrue(user.blockList.isEmpty());
+        assertTrue(user.friendsList == null);
+        assertTrue(user.blockList == null);
         assertTrue(user.subscriptions.isEmpty());
     }
 
@@ -48,12 +48,12 @@ public class UserTest {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
         user1.addFriend(user2);
-        assertEquals(user2, user1.friendsList.get(0));
+        assertEquals(user2, user1.friendsList.friend);
 
         //edge case, if a user attempts to add the same friend again
-        int originalSize = user1.friendsList.size();
+        int originalSize = friendCount(user1.friendsList);
         user1.addFriend(user2);
-        assertEquals(originalSize, user1.friendsList.size()); //should not duplicate
+        assertEquals(originalSize, friendCount(user1.friendsList)); //should not duplicate
     }
 
     @Test
@@ -62,38 +62,54 @@ public class UserTest {
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
         user1.addFriend(user2);
         user1.removeFriend(user2);
-        assertTrue(user1.friendsList.isEmpty());
+        assertTrue(user1.friendsList == null);
 
         //edge case, if a user attempts to remove a friend they don't have added
-        int originalSize = user1.friendsList.size();
+        int originalSize = friendCount(user1.friendsList);
         user1.removeFriend(user2);
-        assertEquals(originalSize, user1.friendsList.size()); //friendsList should remain unchanged
+        assertEquals(originalSize, friendCount(user1.friendsList)); //friendsList should remain unchanged
     }
 
     @Test
     public void testBlockUser() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
-        user1.blockUser(user2, user1.blockList);
-        assertEquals(user2, user1.blockList.get(0));
+        user1.blockUser(user2);
+        assertEquals(user2, user1.blockList.blockedUser);
 
         //edge case, if a user attempts to block some they've already blocked
-        int originalSize = user1.blockList.size();
-        user1.blockUser(user2, user1.blockList);
-        assertEquals(originalSize, user1.blockList.size()); //should not duplicate
+        int originalSize = blockedCount(user1.blockList);
+        user1.blockUser(user2);
+        assertEquals(originalSize, blockedCount(user1.blockList)); //should not duplicate
     }
 
     @Test
     public void testUnblockUser() {
         User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
-        user1.blockUser(user2, user1.blockList);
-        user1.unblockUser(user2, user1.blockList);
-        assertTrue(user1.blockList.isEmpty());
+        user1.blockUser(user2);
+        user1.unblockUser(user2);
+        assertTrue(user1.blockList == null);
 
         //edge case, if a user attempts to unblock someone they haven't blocked
-        int originalSize = user1.blockList.size();
-        user1.unblockUser(user2, user1.blockList);
-        assertEquals(originalSize, user1.blockList.size()); //blockList should remain unchanged
+        int originalSize = blockedCount(user1.blockList);
+        user1.unblockUser(user2);
+        assertEquals(originalSize, blockedCount(user1.blockList)); //blockList should remain unchanged
+    }
+        
+    //helper recursive method - returns number of friends
+    public int friendCount(FriendNode node) {
+        if(node == null) {
+            return 0;
+        }
+        return 1 + friendCount(node.next);
+    }
+
+    //helper recursive method - returns number of blocked users
+    public int blockedCount(BlockNode node) {
+        if(node == null) {
+            return 0;
+        }
+        return 1 + blockedCount(node.next);
     }
 }

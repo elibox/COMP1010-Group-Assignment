@@ -42,7 +42,7 @@ public class MessageTest {
         User sender = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
         User recipient = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
         ArrayList<Message> messages = new ArrayList<>();
-        sender.blockList.add(recipient);
+        sender.blockUser(recipient);
         Message message = new Message(sender, "hi jane, hru", null, null, recipient);
 
         //attempting to send message to a blocked user
@@ -50,7 +50,7 @@ public class MessageTest {
         assertEquals(0, messages.size()); //message should not be added 
 
         //edge case, if sender unblocks the recepient and sends a message
-        sender.blockList.remove(recipient);
+        sender.unblockUser(recipient);
         messages.clear();
         message.sendPrivateMessage(messages);
         assertEquals(1, messages.size());

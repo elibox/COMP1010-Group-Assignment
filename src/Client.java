@@ -20,10 +20,10 @@ public class Client {
         user1.displayFriendsList(); // Display updated friends list after removing
 
         // Test blocking and unblocking
-        user1.blockUser(user2, user1.blockList);
+        user1.blockUser(user2);
         user1.displayBlockList(); // Display updated block list after blocking
 
-        user1.unblockUser(user2, user1.blockList);
+        user1.unblockUser(user2);
         user1.displayBlockList(); // Display updated block list after unblocking
 
         // Create a Channel and test subscribing/unsubscribing
