@@ -1,15 +1,17 @@
+import java.time.LocalTime;
+
 public class Time {
     public int hour, minute, second;
-    
-    public Time(int hour, int minute, int second) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
+
+    //constructor to return the current time
+    public Time() {
+        LocalTime currentTime = LocalTime.now();
+        this.hour = currentTime.getHour();
+        this.minute = currentTime.getMinute();
+        this.second = currentTime.getSecond();
     }
 
-    //future idea: minutes/seconds increase over time by a random amount
-    
     public String toString() {
-        return hour+":"+minute+":"+second;
+        return String.format("%02d:%02d:%02d", hour, minute, second);
    } 
 }

@@ -1,53 +1,75 @@
-import java.util.*;
+import java.util.ArrayList;
 
 public class Client {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        User user1 = new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000");
+        User user2 = new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999");
+        User user3 = new User(12345680, "jojo", "jojo.dodo@gmail.com", "owowo001");
 
-        Date d1 = new Date (12, 9, 2024);
-        Time t1 = new Time (6, 15, 59);
-        
-        User john = new User(12345678, "John Doe", "john.doe@gmail.com", "jontron3000");
-        System.out.println(john.studentId + " | " + john.username + " | " + john.email + " | " + john.password);
+        // Display initial user details
+        System.out.println("Created Users:");
+        System.out.println("User1: " + user1.username);
+        System.out.println("User2: " + user2.username);
+        System.out.println("User3: " + user3.username);
 
-        User jane = new User(12345679, "Jane123", "janedoe@gmail.com", "abc123");
-        User sam = new User(987654321, "lololol", "sam@gmail.com", "ppp32");
-        User paul = new User(87654291, "rawr", "pawl@gmail.com", "lol123");
+        // Test adding and removing friends
+        user1.addFriend(user2);
+        user1.displayFriendsList(); // Display updated friends list after adding
 
-        ArrayList<User> johnsFriendList = new ArrayList<User>(Arrays.asList(jane));
+        user1.removeFriend(user2);
+        user1.displayFriendsList(); // Display updated friends list after removing
 
-        //group message
-        ArrayList<User> a = new ArrayList<User>(Arrays.asList(jane, sam, paul));
-        Message gc = new Message(john, a, d1, t1, "hru >,<");
-        System.out.println(gc.groupMessage());
+        // Test blocking and unblocking
+        user1.blockUser(user2, user1.blockList);
+        user1.displayBlockList(); // Display updated block list after blocking
 
+        user1.unblockUser(user2, user1.blockList);
+        user1.displayBlockList(); // Display updated block list after unblocking
 
-        //private message
-        Message dm = new Message(paul, jane, d1, t1, "have u done the quiz yet");
-        System.out.println(dm.privMessage());
-        
+        // Create a Channel and test subscribing/unsubscribing
+        Channel studyChannel = new Channel("Study", "Computer Science");
+        user1.subscribeToChannel(studyChannel);
+        System.out.println("hello test");
+        user1.displayChannelSubscriptions(); // Display updated subscriptions after subscribing
 
-        //group chat - add and remove user
-        User kate = new User(98888192, "katekate", "kate@gmail.com", "password!");
-        gc.addUser(kate);
-        gc.removeUser(kate);
+        user1.unsubscribeFromChannel(0);
+        user1.displayChannelSubscriptions(); // Display updated subscriptions after unsubscribing
 
+        // Create a Message list
+        ArrayList<Message> messageList = new ArrayList<>();
 
-        //friend list - add and remove user
-        john.addFriend(sam, johnsFriendList);
-        john.checkFriendList(johnsFriendList);
+        // Send a private message
+        Message privateMessage = new Message(user1, "Hi, how are you?", null, null, user2);
+        privateMessage.sendPrivateMessage(messageList); // Send and display message output
 
-        
-        //sending message in a channel? - again probs need to add a method in user so user can directly send messages
-        Channel test = new Channel("Study", "COMP1010");
-        Message firstMes = new Message(test, kate, "how was the prac?",  d1, t1);
-        System.out.println(firstMes.channelMessage());
+        // Send a channel message
+        Message channelMessage = new Message(user1, "Study hard!", studyChannel, null, null);
+        channelMessage.sendChannelMessage(messageList); // Send and display message output
 
+        // Test adding and removing users in a group chat
+        ArrayList<User> groupChatMembers = new ArrayList<>();
+        groupChatMembers.add(user1);
+        groupChatMembers.add(user2);
+
+        Message groupMessage = new Message(user1, "Welcome to the study group!", null, groupChatMembers, null);
+        groupMessage.addUserToGroupChat(user3); // Adding user to group chat
+
+        groupMessage.sendGroupMessage(messageList); // Send and display group message output
+
+        groupMessage.removeUserFromGroupChat(user2); // Remove user from group chat
+        System.out.println("Group chat members after removal: " + groupMessage.groupChatMembers);
+        /*
+         * deleted tests so i can add file i/o stuff (i tested it first everythng works fine) - nawal
+         */
+
+        /*
         Scanner demoScanner = new Scanner(System.in);
         System.out.println("Enter username");
     
         String username = demoScanner.nextLine();
         System.out.println("Username is: " + username);
 
-        demoScanner.close();
+        demoScanner.close(); 
+        */
     }
 }

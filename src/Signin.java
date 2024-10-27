@@ -1,10 +1,10 @@
 import java.util.Scanner;
-//test by dora
-public class Signin {
-    public String username;
-    public String password;
+import java.util.*;
 
-    public Signin() {
+public class Signin {
+    public String username, password;
+
+    public Signin(ArrayList<User> users) {
         Scanner demoScanner = new Scanner(System.in);
 
         System.out.println("Enter username:");
@@ -13,14 +13,25 @@ public class Signin {
         System.out.println("Enter password:");
         this.password = demoScanner.nextLine();
 
-        System.out.println("Username is: " + this.username);
-        System.out.println("Password is: " + this.password);
+        User signedInUser = signIn(users);
+        if(signedInUser != null) {
+            System.out.println("Welcome back, "+signedInUser.username+"!");
+        } else {
+            System.out.println("Error: login failed.");
+        }
 
         demoScanner.close();
     }
 
-    public static void main(String[] args) {
-        Signin signInInstance = new Signin();
-        System.out.println("Sign in details for " + signInInstance.username);
+    //checking if username and password signed in with belong to a user
+    public User signIn(ArrayList<User> users) {
+        for(int i=0; i<users.size(); i++) {
+            User user = users.get(i);
+            if(user.username == this.username && user.password == this.password) {
+                return user;
+            }
+        }
+        return null;
     }
 }
+

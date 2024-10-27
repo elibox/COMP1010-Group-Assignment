@@ -1,11 +1,16 @@
+import java.time.LocalDate;
+
 public class Date {
     public int day, month, year;
 
-    public Date(int day, int month, int year) {
-        this.day = day;
-        this.month = month;
-        this.year = year;
+    //date constuctor to return the current date
+    public Date() {
+        LocalDate currentDate = LocalDate.now();
+        this.day = currentDate.getDayOfMonth();
+        this.month = currentDate.getMonthValue();
+        this.year = currentDate.getYear();
     }
+
     public String toString() {
         return day+"/"+month+"/"+year;
    } 
