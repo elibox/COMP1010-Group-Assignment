@@ -12,46 +12,41 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
-            displayMainMenu();
-            int choice = getUserChoice(scanner);
-
-            switch(choice) {
-                case 1:
-                    login(scanner);
-                    break;
-                case 2:
-                    register(scanner);
-                    break;
-                case 3:
-                    saveUsersToFile();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Error: Option is not valid, please try again.");
+            displayMenu();
+            int choice = userChoice(scanner);
+            
+            if(choice == 1) {
+                login(scanner);
+            } else if(choice == 2) {
+                register(scanner);
+            } else if(choice == 3) {
+                saveUsersToFile();
+                System.exit(0);
+            } else {
+                System.out.println("Error: this option is not valid, please try again.");
             }
-
             if (loggedInUser != null) {
                 userMenu(scanner);
             }
         }
     }
 
-    public static void displayMainMenu() {
-        System.out.println("Main Menu:");
+    public static void displayMenu() {
+        System.out.println("| BigMacs Menu |");
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Choose an option: ");
+        System.out.print("Please choose an option: ");
     }
 
-    public static int getUserChoice(Scanner scanner) {
+    public static int userChoice(Scanner scanner) {
         return scanner.nextInt();
     }
 
     public static void loadUsersFromFile() {
         try(BufferedReader reader = new BufferedReader(new FileReader(USER_DATA_FILE))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 long studentId = Long.parseLong(parts[0]);
                 String username = parts[1];
@@ -66,12 +61,12 @@ public class Client {
 
     public static void saveUsersToFile() {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE))) {
-            for (int i = 0; i < users.size(); i++) {
+            for(int i=0; i<users.size(); i++) {
                 User user = users.get(i);
-                writer.write(user.studentId + "," + user.username + "," + user.email + "," + user.password);
+                writer.write(user.studentId+","+user.username+","+user.email);
                 writer.newLine();
             }
-        } catch (IOException e) {
+        } catch(IOException e) {
             System.out.println("Error saving user data.");
         }
     }
@@ -95,18 +90,18 @@ public class Client {
         if (loggedInUser != null) {
             System.out.println("Login successful! Welcome, " + loggedInUser.username);
         } else {
-            System.out.println("Error: login failed, please re enter your username and password");
+            System.out.println("Error: login failed, please re-enter your username and password");
         }
     }
 
     public static User findUser(String username, String password) {
-        for (int i = 0; i < users.size(); i++) {
+        for (int i=0; i<users.size(); i++) {
             User user = users.get(i);
             if (user.username.equals(username) && user.password.equals(password)) {
                 return user;
             }
         }
-        return null; // Login failed
+        return null;
     }
 
     public static void register(Scanner scanner) {
@@ -121,38 +116,32 @@ public class Client {
         String password = scanner.nextLine();
         
         if (findUserByUsername(username) != null) {
-            System.out.println("Error: username already exists.");
+            System.out.println("Error: this username already exists, please choose another");
             return;
         }
 
         users.add(new User(studentId, username, email, password));
-        System.out.println("Registration successful! You can now log in.");
+        System.out.println("Registration successful! You can now log in");
     }
 
     public static void userMenu(Scanner scanner) {
         while (true) {
             displayUserMenu();
-            int choice = getUserChoice(scanner);
+            int choice = userChoice(scanner);
 
-            switch (choice) {
+            switch(choice) {
                 case 1:
-                    subscribeToChannel(scanner);
+                    login(scanner);
                     break;
                 case 2:
-                    sendMessage(scanner);
+                    register(scanner);
                     break;
                 case 3:
-                    blockUser(scanner);
+                    saveUsersToFile();
+                    System.exit(0);
                     break;
-                case 4:
-                    addUser(scanner);
-                    break;
-                case 5:
-                    loggedInUser = null;
-                    System.out.println("Logged out successfully.");
-                    return;
                 default:
-                    System.out.println("Error: option is not valid, please try again.");
+                    System.out.println("Error: Option is not valid, please try again.");
             }
         }
     }
@@ -172,26 +161,33 @@ public class Client {
         String channelName = scanner.next();
         Channel channel = new Channel(channelName, channelName);
         loggedInUser.subscribeToChannel(channel);
-        System.out.println("Subscribed to channel: " + channelName);
+    }
+
+    public static void unsubscribeFromChannel(Scanner scanner) {
+        loggedInUser.displayChannelSubscriptions();
+        if(loggedInUser.subscriptions.isEmpty()) {
+            return;
+        }
+        System.out.print("Please enter the index of the channel you want to unsubscribe from");
+        int idx = scanner.nextInt();
+        loggedInUser.unsubscribeFromChannel(idx);
     }
 
     public static void sendMessage(Scanner scanner) {
-        System.out.print("Choose message type (1: Channel, 2: Private, 3: Group): ");
+        System.out.print("Please choose message type (1: Channel, 2: Private, 3: Group): ");
         int messageType = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline
+        scanner.nextLine();
 
-        switch (messageType) {
-            case 1:
-                sendChannelMessage(scanner);
-                break;
-            case 2:
-                sendPrivateMessage(scanner);
-                break;
-            case 3:
-                sendGroupMessage(scanner);
-                break;
-            default:
-                System.out.println("Error: invalid message type chosen");
+        if(messageType == 1) {
+            sendChannelMessage(scanner);
+        }
+        if(messageType == 2) {
+            sendPrivateMessage(scanner);
+        }
+        if(messageType == 3) {
+            sendGroupMessage(scanner);
+        } else {
+            System.out.println("Error: this option is not valid, please try again.");
         }
     }
 
@@ -201,7 +197,7 @@ public class Client {
         System.out.print("Enter your message: ");
         String messageContent = scanner.nextLine();
 
-        Channel channel = new  Channel(channelName, channelName);
+        Channel channel = new Channel(channelName, channelName);
         Message message = new Message(loggedInUser, messageContent, channel, null, null);
         message.sendChannelMessage(messages);
     }
@@ -218,52 +214,82 @@ public class Client {
             message.sendPrivateMessage(messages);
         } else {
             System.out.println("Error: User not found.");
-        }
+        } 
     }
 
     public static void sendGroupMessage(Scanner scanner) {
-        System.out.print("Enter group name: ");
+        System.out.print("Enter users to send group message to, separating each user with a comma: ");
+        String userInput = scanner.nextLine();
+
+        String[] usernames = userInput.split(",");
+        ArrayList<User> groupChatMembers = new ArrayList<>();
+
+        for(int i=0; i<usernames.length; i++) {
+            String username = usernames[i];
+            User member = findUserByUsername(username);
+            if(member != null) {
+                groupChatMembers.add(member);
+            } else {
+                System.out.println("User not found: "+username);
+            }
+        }
         System.out.print("Enter your message: ");
         String messageContent = scanner.nextLine();
-
-        ArrayList<User> groupChatMembers = new ArrayList<>();
         Message message = new Message(loggedInUser, messageContent, null, groupChatMembers, null);
         message.sendGroupMessage(messages);
     }
 
+    //option for blocking users
     public static void blockUser(Scanner scanner) {
-        System.out.print("Enter the username of the user to block: ");
+        System.out.print("Please enter the username of the user you would like to block");
         String usernameToBlock = scanner.nextLine();
         User userToBlock = findUserByUsername(usernameToBlock);
-
         if (userToBlock != null) {
             loggedInUser.blockUser(userToBlock);
-            System.out.println("User " + usernameToBlock + " has been blocked.");
         } else {
             System.out.println("Error: User not found.");
         }
     }
 
-    public static void addUser(Scanner scanner) {
-        System.out.print("Enter your Student ID: ");
-        long studentId = scanner.nextLong();
-        scanner.nextLine(); // Consume the newline
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-        
-        if (findUserByUsername(username) != null) {
-            System.out.println("Error: user is already added");
-            return;
+    //option for unblocking
+    public static void unblockUser(Scanner scanner) {
+        loggedInUser.displayBlockList();
+        System.out.println("Please enter the username of the use you would like to unblock");
+        String usernameToUnblock = scanner.next();
+        User userToUnblock = findUserByUsername(usernameToUnblock);
+        if(userToUnblock != null) {
+            loggedInUser.unblockUser(userToUnblock);
+        } else {
+            System.out.println("Error: "+userToUnblock+" is not on block list");
         }
-
-        users.add(new User(studentId, username, email, password));
-        System.out.println("User " + username + " has been added.");
     }
 
+    //option for adding friends
+    public static void addFriend(Scanner scanner) {
+        System.out.print("Please enter the username of the user you would like to add.");
+        String usernameToAdd = scanner.nextLine();
+        User userToAdd = findUserByUsername(usernameToAdd);
+        if(userToAdd != null) {
+            loggedInUser.addFriend(userToAdd);
+        } else {
+            System.out.println("Error: this user does not exist");
+        }
+    }
+
+    //option to remove friends
+    public static void removeFriend(Scanner scanner) {
+        loggedInUser.displayFriendsList();
+        System.out.print("Please enter the username of the friend you would like to remove");
+        String usernameToRemove = scanner.next();
+        User userToRemove = findUserByUsername(usernameToRemove);
+        if(userToRemove != null) {
+            loggedInUser.removeFriend(userToRemove);
+        } else {
+            System.out.println("Error: "+usernameToRemove+" is not on friends lists");
+        }
+    }
+
+    //helper to return the username of a specific user from a list of users
     public static User findUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
@@ -271,6 +297,6 @@ public class Client {
                 return user;
             }
         }
-        return null; // User not found
+        return null;
     }
 }
