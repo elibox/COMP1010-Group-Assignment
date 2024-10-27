@@ -57,18 +57,8 @@ public class Client {
 
         groupMessage.removeUserFromGroupChat(user2); // Remove user from group chat
         System.out.println("Group chat members after removal: " + groupMessage.groupChatMembers);
+
+        System.out.println("All messages sent: ");
+        user1.messageTranscript(messageList);
     }
-        /*
-         * deleted tests so i can add file i/o stuff (i tested it first everythng works fine) - nawal
-         */
-
-        /*
-        Scanner demoScanner = new Scanner(System.in);
-        System.out.println("Enter username");
-    
-        String username = demoScanner.nextLine();
-        System.out.println("Username is: " + username);
-
-        demoScanner.close(); 
-        */
 }

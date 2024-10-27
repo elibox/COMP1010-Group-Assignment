@@ -196,4 +196,11 @@ public class User {
             return isBlockedByHelper(node.next);
         }
     }
+    
+    //displaying message transcript
+    public void messageTranscript(ArrayList<Message> messages) {
+        for(int i=0; i<messages.size(); i++) {
+            System.out.println(messages.get(i).toString());
+        }
+    }
 }
