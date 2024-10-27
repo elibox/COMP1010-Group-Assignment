@@ -48,6 +48,9 @@ public class Client {
             String line;
             while((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
+                if(parts.length < 4) {
+                    continue;
+                }
                 long studentId = Long.parseLong(parts[0]);
                 String username = parts[1];
                 String email = parts[2];
@@ -90,7 +93,7 @@ public class Client {
         if (loggedInUser != null) {
             System.out.println("Login successful! Welcome, " + loggedInUser.username);
         } else {
-            System.out.println("Error: login failed, please re-enter your username and password");
+            System.out.println("Error: incorrect username or password, please login again");
         }
     }
 
@@ -146,6 +149,7 @@ public class Client {
             } else if(choice == 8) {
                 loggedInUser = null;
                 System.out.println("Logged out sucessfully");
+                break;
             } else {
                 System.out.println("Error: this option is not valid, please try again");
             }
@@ -189,11 +193,9 @@ public class Client {
 
         if(messageType == 1) {
             sendChannelMessage(scanner);
-        }
-        if(messageType == 2) {
+        } else if(messageType == 2) {
             sendPrivateMessage(scanner);
-        }
-        if(messageType == 3) {
+        } else if(messageType == 3) {
             sendGroupMessage(scanner);
         } else {
             System.out.println("Error: this option is not valid, please try again.");
