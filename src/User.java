@@ -81,8 +81,21 @@ public class User {
     }
 
     //displaying friend list (extremely scuffed)
+    public void displayFriendsList() {
+        if(!friendsList.isEmpty()) {
+            System.out.print("Friend List: ");
+            for(int i=0; i<friendsList.size(); i++) {
+                System.out.print(friendsList.get(i)+" ");
+            }
+            System.out.println();
+        } else {
+            System.out.println("Error: No users have been added");
+        }
+    }
+
     // Define a recursive data structure for a linked list of friends
-    // someone said to convert this into a recursive function so i did it - dora
+    /*someone said to convert this into a recursive function so i did it - dora
+    commenting it out for now coz this causes issues in the client code for some reason
 class FriendNode {
     String username;
     FriendNode next;
@@ -112,8 +125,7 @@ class FriendNode {
             System.out.println(); 
         }
     }
-}
-
+    */
 
     //blocking someone
     public void blockUser(User toBlock, ArrayList<User> blockList) {
@@ -135,7 +147,21 @@ class FriendNode {
         }
     }
 
-     // Define a recursive data structure for linked list of blocked users
+    //displaying block list
+    public void displayBlockList() {
+        if(!blockList.isEmpty()) {
+            System.out.print("Blocked users: ");
+            for(int i=0; i<blockList.size(); i++) {
+                System.out.print(blockList.get(i)+" ");
+            }
+            System.out.println();
+        } else {
+            System.out.println("Error: no users have been blocked");
+        }
+    }
+
+
+     /* Define a recursive data structure for linked list of blocked users
 class BlockedUserNode {
     String username;
     BlockedUserNode next;
@@ -165,8 +191,7 @@ class BlockedUserNode {
             head.displayBlockList();
             System.out.println();
         }
-    }
-}
+    }*/
 
 
     //checker to see if user is blocked

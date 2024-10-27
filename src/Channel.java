@@ -59,7 +59,6 @@ class MessageNode {
     }
 }
 
-
     //check if a message has already been sent in a channel
     public boolean messageExists(Message message) {
         return messages.contains(message);

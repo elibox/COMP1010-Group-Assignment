@@ -9,13 +9,17 @@ public class Subscription {
         this.channel = channel;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
-    public Channel getChannel(){
+    public Channel getChannel() {
         return channel;
     }
-    public String toString(){
-        return user.toString() + " has subscribed to " + channel+toString();
+    public String toString() {
+        if(channel != null) {
+            return channel.name;
+        } else {
+            return "";
+        }
     }
 }

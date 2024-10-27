@@ -29,7 +29,6 @@ public class Client {
         // Create a Channel and test subscribing/unsubscribing
         Channel studyChannel = new Channel("Study", "Computer Science");
         user1.subscribeToChannel(studyChannel);
-        System.out.println("hello test");
         user1.displayChannelSubscriptions(); // Display updated subscriptions after subscribing
 
         user1.unsubscribeFromChannel(0);
@@ -58,6 +57,7 @@ public class Client {
 
         groupMessage.removeUserFromGroupChat(user2); // Remove user from group chat
         System.out.println("Group chat members after removal: " + groupMessage.groupChatMembers);
+    }
         /*
          * deleted tests so i can add file i/o stuff (i tested it first everythng works fine) - nawal
          */
@@ -71,5 +71,4 @@ public class Client {
 
         demoScanner.close(); 
         */
-    }
 }
