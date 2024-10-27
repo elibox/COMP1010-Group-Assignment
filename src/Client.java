@@ -12,46 +12,43 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
-            displayMainMenu();
-            int choice = getUserChoice(scanner);
-
-            switch(choice) {
-                case 1:
-                    login(scanner);
-                    break;
-                case 2:
-                    register(scanner);
-                    break;
-                case 3:
-                    saveUsersToFile();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Error: Option is not valid, please try again.");
+            displayMenu();
+            int choice = userChoice(scanner);
+            
+            if(choice == 1) {
+                login(scanner);
             }
-
+            if(choice == 2) {
+                register(scanner);
+            }
+            if(choice == 3) {
+                saveUsersToFile();
+                System.exit(0);
+            } else {
+                System.out.println("Error: this option is not valid, please try again.");
+            }
             if (loggedInUser != null) {
                 userMenu(scanner);
             }
         }
     }
 
-    public static void displayMainMenu() {
-        System.out.println("Main Menu:");
+    public static void displayMenu() {
+        System.out.println("| BigMacs Menu |");
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Choose an option: ");
+        System.out.print("Please choose an option");
     }
 
-    public static int getUserChoice(Scanner scanner) {
+    public static int userChoice(Scanner scanner) {
         return scanner.nextInt();
     }
 
     public static void loadUsersFromFile() {
         try(BufferedReader reader = new BufferedReader(new FileReader(USER_DATA_FILE))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 long studentId = Long.parseLong(parts[0]);
                 String username = parts[1];
@@ -66,12 +63,12 @@ public class Client {
 
     public static void saveUsersToFile() {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE))) {
-            for (int i = 0; i < users.size(); i++) {
+            for(int i=0; i<users.size(); i++) {
                 User user = users.get(i);
-                writer.write(user.studentId + "," + user.username + "," + user.email + "," + user.password);
+                writer.write(user.studentId+","+user.username+","+user.email);
                 writer.newLine();
             }
-        } catch (IOException e) {
+        } catch(IOException e) {
             System.out.println("Error saving user data.");
         }
     }
@@ -95,18 +92,18 @@ public class Client {
         if (loggedInUser != null) {
             System.out.println("Login successful! Welcome, " + loggedInUser.username);
         } else {
-            System.out.println("Error: login failed, please re enter your username and password");
+            System.out.println("Error: login failed, please re-enter your username and password");
         }
     }
 
     public static User findUser(String username, String password) {
-        for (int i = 0; i < users.size(); i++) {
+        for (int i=0; i<users.size(); i++) {
             User user = users.get(i);
             if (user.username.equals(username) && user.password.equals(password)) {
                 return user;
             }
         }
-        return null; // Login failed
+        return null;
     }
 
     public static void register(Scanner scanner) {
@@ -121,38 +118,36 @@ public class Client {
         String password = scanner.nextLine();
         
         if (findUserByUsername(username) != null) {
-            System.out.println("Error: username already exists.");
+            System.out.println("Error: this username already exists, please choose another");
             return;
         }
 
         users.add(new User(studentId, username, email, password));
-        System.out.println("Registration successful! You can now log in.");
+        System.out.println("Registration successful! You can now log in");
     }
 
     public static void userMenu(Scanner scanner) {
         while (true) {
             displayUserMenu();
-            int choice = getUserChoice(scanner);
+            int choice = userChoice(scanner);
 
-            switch (choice) {
-                case 1:
-                    subscribeToChannel(scanner);
-                    break;
-                case 2:
-                    sendMessage(scanner);
-                    break;
-                case 3:
-                    blockUser(scanner);
-                    break;
-                case 4:
-                    addUser(scanner);
-                    break;
-                case 5:
-                    loggedInUser = null;
-                    System.out.println("Logged out successfully.");
-                    return;
-                default:
-                    System.out.println("Error: option is not valid, please try again.");
+            if(choice == 1) {
+                subscribeToChannel(scanner);
+            }
+            if(choice == 2) {
+                sendMessage(scanner);
+            }
+            if(choice == 3) {
+                blockUser(scanner);
+            }
+            if(choice == 4) {
+                addUser(scanner);
+            }
+            if(choice == 5) {
+                loggedInUser = null;
+                System.out.println("Logged out sucessfully");
+            } else {
+                System.out.println("Error: this option is not valid, please try again");
             }
         }
     }
@@ -178,20 +173,18 @@ public class Client {
     public static void sendMessage(Scanner scanner) {
         System.out.print("Choose message type (1: Channel, 2: Private, 3: Group): ");
         int messageType = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline
+        scanner.nextLine();
 
-        switch (messageType) {
-            case 1:
-                sendChannelMessage(scanner);
-                break;
-            case 2:
-                sendPrivateMessage(scanner);
-                break;
-            case 3:
-                sendGroupMessage(scanner);
-                break;
-            default:
-                System.out.println("Error: invalid message type chosen");
+        if(messageType == 1) {
+            sendChannelMessage(scanner);
+        }
+        if(messageType == 2) {
+            sendPrivateMessage(scanner);
+        }
+        if(messageType == 3) {
+            sendGroupMessage(scanner);
+        } else {
+            System.out.println("Error: this option is not valid, please try again.");
         }
     }
 
@@ -247,7 +240,7 @@ public class Client {
     public static void addUser(Scanner scanner) {
         System.out.print("Enter your Student ID: ");
         long studentId = scanner.nextLong();
-        scanner.nextLine(); // Consume the newline
+        scanner.nextLine();
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter email: ");
@@ -271,6 +264,6 @@ public class Client {
                 return user;
             }
         }
-        return null; // User not found
+        return null;
     }
 }
