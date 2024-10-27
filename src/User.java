@@ -49,17 +49,19 @@ public class User {
     }
 
     //removing subscriptions
-    public void unsubscribeFromChannel(int idx) {
+    public String unsubscribeFromChannel(int idx) {
         if(subscriptions.isEmpty()) {
             System.out.println("Error: no channels have been subscribed to");
-            return;
+            return null;
         }
         if(idx>=0 && idx<subscriptions.size()) {
             Subscription subscription = subscriptions.get(idx);
             subscriptions.remove(idx);
             System.out.println(this.username+" has unsubscribed from "+subscription.channel);
+            return subscription.getChannel().name;
         } else {
             System.out.println("Error: failed to unsubscribe from channel");
+            return null;
         }
     }
 
