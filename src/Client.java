@@ -137,28 +137,6 @@ public class Client {
             displayUserMenu();
             int choice = userChoice(scanner);
 
-<<<<<<< HEAD
-            if(choice == 1) {
-                subscribeToChannel(scanner);
-            } else if(choice == 2) {
-                sendMessage(scanner);
-            } else if(choice == 3) {
-                blockUser(scanner);
-            } else if(choice == 4) {
-                addFriend(scanner);
-            } else if(choice == 5) {
-                removeFriend(scanner);
-            } else if(choice == 6) {
-                unblockUser(scanner);
-            } else if(choice == 7) {
-                unsubscribeFromChannel(scanner);
-            } else if(choice == 8) {
-                loggedInUser = null;
-                System.out.println("Logged out sucessfully");
-                break;
-            } else {
-                System.out.println("Error: this option is not valid, please try again");
-=======
             switch (choice) {
                 case 1:
                     subscribeToChannel(scanner);
@@ -178,7 +156,6 @@ public class Client {
                     return;
                 default:
                     System.out.println("Error: option is not valid, please try again.");
->>>>>>> d366e9e4590420d19645510f3c2ef497f9ecc665
             }
         }
     }
@@ -215,16 +192,6 @@ public class Client {
         int messageType = scanner.nextInt();
         scanner.nextLine();
 
-<<<<<<< HEAD
-        if(messageType == 1) {
-            sendChannelMessage(scanner);
-        } else if(messageType == 2) {
-            sendPrivateMessage(scanner);
-        } else if(messageType == 3) {
-            sendGroupMessage(scanner);
-        } else {
-            System.out.println("Error: this option is not valid, please try again.");
-=======
         switch (messageType) {
             case 1:
                 sendChannelMessage(scanner);
@@ -237,7 +204,6 @@ public class Client {
                 break;
             default:
                 System.out.println("Error: invalid message type chosen");
->>>>>>> d366e9e4590420d19645510f3c2ef497f9ecc665
         }
     }
 
