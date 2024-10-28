@@ -109,7 +109,7 @@ public class Client {
             System.out.println("Login successful! Welcome, " + loggedInUser.username);
             logAction("User logged in: "+loggedInUser.username);
         } else {
-            System.out.println("Error: incorrect username or password, please login again");
+            System.out.println("Error: incorrect username or password, please login again.");
         }
     }
 
