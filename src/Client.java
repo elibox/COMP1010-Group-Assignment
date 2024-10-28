@@ -10,8 +10,15 @@ public class Client {
 
     public static void main(String[] args) {
         loadUsersFromFile();
-        Scanner scanner = new Scanner(System.in);
 
+        //saving sample users to users.txt
+        if(users.isEmpty()) {
+            testUsers();
+            saveUsersToFile();
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        //initial display menu 
         while(true) {
             displayMenu();
             int choice = userChoice(scanner);
@@ -27,7 +34,7 @@ public class Client {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Error: Option is not valid, please try again.");
+                    System.out.println("Error: this option is not valid, please try again.");
             }
             if (loggedInUser != null) {
                 userMenu(scanner);
@@ -35,6 +42,7 @@ public class Client {
         }
     }
 
+    //print lines for display menu
     public static void displayMenu() {
         System.out.println("| BigMacs Menu |");
         System.out.println("1. Login");
@@ -43,12 +51,14 @@ public class Client {
         System.out.print("Please select one of the options: ");
     }
 
+    //handles the users choice
     public static int userChoice(Scanner scanner) {
         int choice = scanner.nextInt();
         scanner.nextLine();
         return choice;
     }
 
+    //method that logs all active users information onto users textfile
     public static void loadUsersFromFile() {
         try(BufferedReader reader = new BufferedReader(new FileReader(USER_DATA_FILE))) {
             String line;
@@ -70,7 +80,8 @@ public class Client {
             testUsers();
         }
     }
-
+    
+    //sample users already on program
     public static void testUsers() {
         users.add(new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000"));
         users.add(new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999"));
@@ -81,7 +92,7 @@ public class Client {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE))) {
             for(int i=0; i<users.size(); i++) {
                 User user = users.get(i);
-                writer.write(user.studentId+", "+user.username+", "+user.email);
+                writer.write(user.studentId+", "+user.username+", "+user.email+", ");
                 writer.newLine();
             }
         } catch(IOException e) {
@@ -89,6 +100,7 @@ public class Client {
         }
     }
 
+    //method to log all user activity onto the user activity log
     public static void logAction(String action) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(ACTIVITY_LOG_FILE, true))) {
             writer.write(action);
@@ -98,6 +110,7 @@ public class Client {
         }
     }
 
+    //handles login
     public static void login(Scanner scanner) {
         System.out.print("Enter username: ");
         String username = scanner.next();
@@ -123,27 +136,47 @@ public class Client {
         return null;
     }
 
+    //handles registration
     public static void register(Scanner scanner) {
         System.out.print("Enter your Student ID: ");
-        long studentId = scanner.nextLong();
-        scanner.nextLine();
+        String studentIdStr = scanner.nextLine();
+
+        if(!studentIdStr.matches("\\d{8}")) {
+            System.out.println("Error: Student ID should contain exactly 8 digits, please try again");
+            return;
+        }
+        long studentId = Long.parseLong(studentIdStr);
+
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
+        if(findUserByUsername(username) != null) {
+            System.out.println("Error: this username already exists, please choose another one");
+            return;
+        }
+
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
+        if(!email.contains("@gmail.com")) {
+            System.out.println("Error: email format is not valid, please enter a valid email");
+            return;
+        }
+
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
-        
-        if (findUserByUsername(username) != null) {
-            System.out.println("Error: this username already exists, please choose another");
+        if(password.length() < 8) {
+            System.out.println("Error: password should have minimum 8 characters, please choose another one");
             return;
         }
 
         users.add(new User(studentId, username, email, password));
         logAction("New user registers: "+username);
         System.out.println("Registration successful! You can now log in");
+
+        //saving new user to users.txt
+        saveUsersToFile();
     }
 
+    //handles the user menu option, after logging in and accessing the program
     public static void userMenu(Scanner scanner) {
         while (true) {
             displayUserMenu();
@@ -181,6 +214,7 @@ public class Client {
         }
     }
 
+    //print lines for user menu
     public static void displayUserMenu() {
         System.out.println("\nUser Menu:");
         System.out.println("1. Subscribe to Channel");
@@ -194,6 +228,7 @@ public class Client {
         System.out.print("Please select one of the options: ");
     }
 
+    //method for subscribing to channels
     public static void subscribeToChannel(Scanner scanner) {
         System.out.print("Enter channel name to subscribe: ");
         String channelName = scanner.next();
@@ -202,6 +237,7 @@ public class Client {
         logAction(loggedInUser.username+" has subscribed to the "+channelName+" channel.");
     }
 
+    //method for unsubscribing from channels
     public static void unsubscribeFromChannel(Scanner scanner) {
         loggedInUser.displayChannelSubscriptions();
         if(loggedInUser.subscriptions.isEmpty()) {
@@ -216,7 +252,7 @@ public class Client {
         }
     }
     
-    
+    //manages selections for message types
     public static void sendMessage(Scanner scanner) {
         System.out.print("Please choose message type [1: Channel, 2: Private, 3: Group]: ");
         int messageType = scanner.nextInt();
@@ -232,7 +268,7 @@ public class Client {
         }
     }
 
-    //option to send channel messages
+    //method for sending channel messages
     public static void sendChannelMessage(Scanner scanner) {
         System.out.print("Enter channel name: ");
         String channelName = scanner.nextLine();
@@ -245,7 +281,7 @@ public class Client {
         logAction(loggedInUser.username+" sent a message to "+channelName+" channel");
     }
 
-    //option to send private messages
+    //method for sending private messages
     public static void sendPrivateMessage(Scanner scanner) {
         System.out.print("Enter recipient's username: ");
         String recipientUsername = scanner.nextLine();
@@ -262,7 +298,7 @@ public class Client {
         } 
     }
 
-    //option to send group messages
+    //method for sending group messages
     public static void sendGroupMessage(Scanner scanner) {
         System.out.print("Enter users to send group message to, separating each user with a comma: ");
         String userInput = scanner.nextLine();
@@ -286,7 +322,7 @@ public class Client {
         logAction(loggedInUser.username+ " sent a group message to ["+String.join(", ", usernames)+"]");
     }
 
-    //option for blocking users
+    //method to block users
     public static void blockUser(Scanner scanner) {
         System.out.print("Please enter the username of the user you would like to block: ");
         String usernameToBlock = scanner.nextLine();
@@ -299,7 +335,7 @@ public class Client {
         }
     }
 
-    //option for unblocking
+    //method for unblocking users
     public static void unblockUser(Scanner scanner) {
         if(loggedInUser.blockList == null) {
             System.out.println("Error: no users have been blocked.");
@@ -317,7 +353,7 @@ public class Client {
         }
     }
 
-    //option for adding friends
+    //method for adding friends
     public static void addFriend(Scanner scanner) {
         System.out.print("Please enter the username of the user you would like to add: ");
         String usernameToAdd = scanner.nextLine().trim();
@@ -330,7 +366,7 @@ public class Client {
         }
     }
 
-    //option to remove friends
+    //method for removing friends
     public static void removeFriend(Scanner scanner) {
         if(loggedInUser.friendsList == null) {
             return; 
