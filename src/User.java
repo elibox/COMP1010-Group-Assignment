@@ -181,7 +181,6 @@ public class User {
         } else {
             System.out.print("Blocked users: ");
             displayBlockListHelper(blockList);
-            /* System.out.println(); */
         }
     }
     //helper method
