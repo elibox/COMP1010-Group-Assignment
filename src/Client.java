@@ -305,6 +305,7 @@ public class Client {
 
         String[] usernames = userInput.split(",");
         ArrayList<User> groupChatMembers = new ArrayList<>();
+        boolean isGroupChatValid = true;
 
         for(int i=0; i<usernames.length; i++) {
             String username = usernames[i];
@@ -313,13 +314,17 @@ public class Client {
                 groupChatMembers.add(member);
             } else {
                 System.out.println("User not found: "+username);
+                isGroupChatValid = false;
             }
         }
-        System.out.print("Enter your message: ");
-        String messageContent = scanner.nextLine();
-        Message message = new Message(loggedInUser, messageContent, null, groupChatMembers, null);
-        message.sendGroupMessage(messages);
-        logAction(loggedInUser.username+ " sent a group message to ["+String.join(", ", usernames)+"]");
+
+        if(isGroupChatValid == true) {
+            System.out.print("Enter your message: ");
+            String messageContent = scanner.nextLine();
+            Message message = new Message(loggedInUser, messageContent, null, groupChatMembers, null);
+            message.sendGroupMessage(messages);
+            logAction(loggedInUser.username+ " sent a group message to ["+String.join(", ", usernames)+"]");
+        }
     }
 
     //method to block users
