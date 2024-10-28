@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Client {
-    public static final String USER_DATA_FILE = "bigMacs.txt";
+    public static final String USER_DATA_FILE = "users.txt";
+    public static final String ACTIVITY_LOG_FILE = "user_activity_log.txt";
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Message> messages = new ArrayList<>();
     public static User loggedInUser;
@@ -14,7 +15,6 @@ public class Client {
         while(true) {
             displayMenu();
             int choice = userChoice(scanner);
-            
             switch(choice) {
                 case 1:
                     login(scanner);
@@ -29,7 +29,6 @@ public class Client {
                 default:
                     System.out.println("Error: Option is not valid, please try again.");
             }
-            
             if (loggedInUser != null) {
                 userMenu(scanner);
             }
@@ -41,11 +40,13 @@ public class Client {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Please choose an option: ");
+        System.out.print("Please select one of the options");
     }
 
     public static int userChoice(Scanner scanner) {
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        return choice;
     }
 
     public static void loadUsersFromFile() {
@@ -65,13 +66,22 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Error: loading user data.");
         }
+        if(users.isEmpty()) {
+            testUsers();
+        }
+    }
+
+    public static void testUsers() {
+        users.add(new User(12345678, "j0hN", "john.doe@gmail.com", "jontron3000"));
+        users.add(new User(12345679, "janeee", "jane.doe@gmail.com", "abcde999"));
+        users.add(new User(12345680, "jojo", "jojo.dodo@gmail.com", "owowo001"));
     }
 
     public static void saveUsersToFile() {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE))) {
             for(int i=0; i<users.size(); i++) {
                 User user = users.get(i);
-                writer.write(user.studentId+","+user.username+","+user.email);
+                writer.write(user.studentId+", "+user.username+", "+user.email);
                 writer.newLine();
             }
         } catch(IOException e) {
@@ -79,12 +89,12 @@ public class Client {
         }
     }
 
-    public static void updateUserActivityToFile(String userActions) {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_DATA_FILE, true))) {
-            writer.write(userActions);
+    public static void logAction(String action) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(ACTIVITY_LOG_FILE, true))) {
+            writer.write(action);
             writer.newLine();
         } catch(IOException e) {
-            System.out.println("Error: logging "+userActions);
+            System.out.println("Error: logging "+action);
         }
     }
 
@@ -97,6 +107,7 @@ public class Client {
         loggedInUser = findUser(username, password);
         if (loggedInUser != null) {
             System.out.println("Login successful! Welcome, " + loggedInUser.username);
+            logAction("User logged in: "+loggedInUser.username);
         } else {
             System.out.println("Error: incorrect username or password, please login again");
         }
@@ -129,6 +140,7 @@ public class Client {
         }
 
         users.add(new User(studentId, username, email, password));
+        logAction("New user registers: "+username);
         System.out.println("Registration successful! You can now log in");
     }
 
@@ -136,8 +148,7 @@ public class Client {
         while (true) {
             displayUserMenu();
             int choice = userChoice(scanner);
-
-            switch (choice) {
+            switch(choice) {
                 case 1:
                     subscribeToChannel(scanner);
                     break;
@@ -151,11 +162,21 @@ public class Client {
                     addFriend(scanner);
                     break;
                 case 5:
+                    removeFriend(scanner);
+                    break;
+                case 6:
+                    unblockUser(scanner);
+                    break;
+                case 7:
+                    unsubscribeFromChannel(scanner);
+                    break;
+                case 8:
                     loggedInUser = null;
-                    System.out.println("Logged out successfully.");
+                    System.out.println("Logged out successfully!");
+                    logAction("User has logged out");
                     return;
                 default:
-                    System.out.println("Error: option is not valid, please try again.");
+                    System.out.println("Error: this option is not valid, please try again");
             }
         }
     }
@@ -163,11 +184,14 @@ public class Client {
     public static void displayUserMenu() {
         System.out.println("\nUser Menu:");
         System.out.println("1. Subscribe to Channel");
-        System.out.println("2. Send Message");
-        System.out.println("3. Block User");
-        System.out.println("4. Add User");
-        System.out.println("5. Log Out");
-        System.out.print("Choose an option: ");
+        System.out.println("2. Send a Message");
+        System.out.println("3. Block a User");
+        System.out.println("4. Add a User");
+        System.out.println("5. Remove a Friend");
+        System.out.println("6. Unblock a User");
+        System.out.println("7. Unsubscribe from a Channel");
+        System.out.println("8. Log Out");
+        System.out.print("Please select one of the options");
     }
 
     public static void subscribeToChannel(Scanner scanner) {
@@ -175,38 +199,42 @@ public class Client {
         String channelName = scanner.next();
         Channel channel = new Channel(channelName, channelName);
         loggedInUser.subscribeToChannel(channel);
+        logAction(loggedInUser.username+" has subscribed to the "+channelName+" channel");
     }
 
     public static void unsubscribeFromChannel(Scanner scanner) {
         loggedInUser.displayChannelSubscriptions();
         if(loggedInUser.subscriptions.isEmpty()) {
+            System.out.println("Error: user is not subscribed to any channels");
             return;
         }
         System.out.print("Please enter the index of the channel you want to unsubscribe from");
         int idx = scanner.nextInt();
-        loggedInUser.unsubscribeFromChannel(idx);
+        String channelName = loggedInUser.unsubscribeFromChannel(idx);
+        if(channelName != null) {
+            logAction(loggedInUser.username+" has unsubscribed from the "+channelName+" channel");
+        } else {
+            System.out.println("Error: failed to unsubscribe from the channel");
+        }
     }
-
+    
+    
     public static void sendMessage(Scanner scanner) {
-        System.out.print("Please choose message type (1: Channel, 2: Private, 3: Group): ");
+        System.out.print("Please choose message type [1: Channel, 2: Private, 3: Group]: ");
         int messageType = scanner.nextInt();
         scanner.nextLine();
-
-        switch (messageType) {
-            case 1:
-                sendChannelMessage(scanner);
-                break;
-            case 2:
-                sendPrivateMessage(scanner);
-                break;
-            case 3:
-                sendGroupMessage(scanner);
-                break;
-            default:
-                System.out.println("Error: invalid message type chosen");
+        if(messageType == 1) {
+            sendChannelMessage(scanner);
+        } else if(messageType == 2) {
+            sendPrivateMessage(scanner);
+        } else if(messageType == 3) {
+            sendGroupMessage(scanner);
+        } else {
+            System.out.println("Error: this option is not valid, please try again.");
         }
     }
 
+    //option to send channel messages
     public static void sendChannelMessage(Scanner scanner) {
         System.out.print("Enter channel name: ");
         String channelName = scanner.nextLine();
@@ -216,8 +244,10 @@ public class Client {
         Channel channel = new Channel(channelName, channelName);
         Message message = new Message(loggedInUser, messageContent, channel, null, null);
         message.sendChannelMessage(messages);
+        logAction(loggedInUser.username+" sent a message to "+channelName+" channel");
     }
 
+    //option to send private messages
     public static void sendPrivateMessage(Scanner scanner) {
         System.out.print("Enter recipient's username: ");
         String recipientUsername = scanner.nextLine();
@@ -228,11 +258,13 @@ public class Client {
             String messageContent = scanner.nextLine();
             Message message = new Message(loggedInUser, messageContent, null, null, recipient);
             message.sendPrivateMessage(messages);
+            logAction(loggedInUser.username+" sent a private message to "+recipientUsername);
         } else {
             System.out.println("Error: User not found.");
         } 
     }
 
+    //option to send group messages
     public static void sendGroupMessage(Scanner scanner) {
         System.out.print("Enter users to send group message to, separating each user with a comma: ");
         String userInput = scanner.nextLine();
@@ -253,6 +285,7 @@ public class Client {
         String messageContent = scanner.nextLine();
         Message message = new Message(loggedInUser, messageContent, null, groupChatMembers, null);
         message.sendGroupMessage(messages);
+        logAction(loggedInUser.username+ " sent a group message to ["+String.join(", ", usernames)+"]");
     }
 
     //option for blocking users
@@ -262,6 +295,7 @@ public class Client {
         User userToBlock = findUserByUsername(usernameToBlock);
         if (userToBlock != null) {
             loggedInUser.blockUser(userToBlock);
+            logAction(loggedInUser.username+" has blocked "+usernameToBlock);
         } else {
             System.out.println("Error: User not found.");
         }
@@ -269,12 +303,17 @@ public class Client {
 
     //option for unblocking
     public static void unblockUser(Scanner scanner) {
+        if(loggedInUser.blockList == null) {
+            System.out.println("Error no users have been blocked");
+            return;
+        }
         loggedInUser.displayBlockList();
-        System.out.println("Please enter the username of the use you would like to unblock");
+        System.out.println("Please enter the username of the user you would like to unblock");
         String usernameToUnblock = scanner.next();
         User userToUnblock = findUserByUsername(usernameToUnblock);
         if(userToUnblock != null) {
             loggedInUser.unblockUser(userToUnblock);
+            logAction(loggedInUser.username+" has unblocked "+usernameToUnblock);
         } else {
             System.out.println("Error: "+userToUnblock+" is not on block list");
         }
@@ -283,10 +322,11 @@ public class Client {
     //option for adding friends
     public static void addFriend(Scanner scanner) {
         System.out.print("Please enter the username of the user you would like to add.");
-        String usernameToAdd = scanner.nextLine();
+        String usernameToAdd = scanner.nextLine().trim();
         User userToAdd = findUserByUsername(usernameToAdd);
         if(userToAdd != null) {
             loggedInUser.addFriend(userToAdd);
+            logAction(loggedInUser.username+" has added friend "+usernameToAdd);
         } else {
             System.out.println("Error: this user does not exist");
         }
@@ -300,6 +340,7 @@ public class Client {
         User userToRemove = findUserByUsername(usernameToRemove);
         if(userToRemove != null) {
             loggedInUser.removeFriend(userToRemove);
+            logAction(loggedInUser.username+" has removed friend "+usernameToRemove);
         } else {
             System.out.println("Error: "+usernameToRemove+" is not on friends lists");
         }
@@ -309,7 +350,7 @@ public class Client {
     public static User findUserByUsername(String username) {
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            if (user.username == username) {
+            if (user.username.equals(username)) {
                 return user;
             }
         }

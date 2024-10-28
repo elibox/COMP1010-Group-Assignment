@@ -49,17 +49,19 @@ public class User {
     }
 
     //removing subscriptions
-    public void unsubscribeFromChannel(int idx) {
+    public String unsubscribeFromChannel(int idx) {
         if(subscriptions.isEmpty()) {
             System.out.println("Error: no channels have been subscribed to");
-            return;
+            return null;
         }
         if(idx>=0 && idx<subscriptions.size()) {
             Subscription subscription = subscriptions.get(idx);
             subscriptions.remove(idx);
             System.out.println(this.username+" has unsubscribed from "+subscription.channel);
+            return subscription.getChannel().name;
         } else {
             System.out.println("Error: failed to unsubscribe from channel");
+            return null;
         }
     }
 
@@ -153,20 +155,20 @@ public class User {
 
     //recursive method - unblocking someone
     public void unblockUser(User toUnblock) {
-        blockList = unblockUserHelper(blockList, toUnblock);
-        BlockNode originalBlockList = blockList;
-        if(originalBlockList == blockList) {
+        BlockNode newBlockList =  unblockUserHelper(blockList, toUnblock);
+        if(newBlockList != blockList) {
+            blockList = newBlockList;
+            System.out.println(toUnblock+" has been unblocked");
+        } else {
             System.out.println("Error: failed to unblock "+toUnblock);
         }
     }
-    //helper
+    //helper method
     public BlockNode unblockUserHelper(BlockNode node, User toUnblock) {
         if(node == null) {
-            System.out.println("Error: "+toUnblock+" has been unblocked");
             return null;
         }
         if(node.blockedUser == toUnblock) {
-            System.out.println(toUnblock+"has been unblocked");
             return node.next;
         } else {
             node.next = unblockUserHelper(node.next, toUnblock);
