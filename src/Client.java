@@ -40,7 +40,7 @@ public class Client {
         System.out.println("1. Login");
         System.out.println("2. Register");
         System.out.println("3. Exit");
-        System.out.print("Please select one of the options");
+        System.out.print("Please select one of the options: ");
     }
 
     public static int userChoice(Scanner scanner) {
@@ -173,10 +173,10 @@ public class Client {
                 case 8:
                     loggedInUser = null;
                     System.out.println("Logged out successfully!");
-                    logAction("User has logged out");
+                    logAction("User has logged out.");
                     return;
                 default:
-                    System.out.println("Error: this option is not valid, please try again");
+                    System.out.println("Error: this option is not valid, please try again.");
             }
         }
     }
@@ -191,7 +191,7 @@ public class Client {
         System.out.println("6. Unblock a User");
         System.out.println("7. Unsubscribe from a Channel");
         System.out.println("8. Log Out");
-        System.out.print("Please select one of the options");
+        System.out.print("Please select one of the options: ");
     }
 
     public static void subscribeToChannel(Scanner scanner) {
@@ -199,22 +199,20 @@ public class Client {
         String channelName = scanner.next();
         Channel channel = new Channel(channelName, channelName);
         loggedInUser.subscribeToChannel(channel);
-        logAction(loggedInUser.username+" has subscribed to the "+channelName+" channel");
+        logAction(loggedInUser.username+" has subscribed to the "+channelName+" channel.");
     }
 
     public static void unsubscribeFromChannel(Scanner scanner) {
         loggedInUser.displayChannelSubscriptions();
         if(loggedInUser.subscriptions.isEmpty()) {
-            System.out.println("Error: user is not subscribed to any channels");
+            System.out.println("Error: user is not subscribed to any channels.");
             return;
         }
-        System.out.print("Please enter the index of the channel you want to unsubscribe from");
+        System.out.print("Please enter the index of the channel you want to unsubscribe from: ");
         int idx = scanner.nextInt();
         String channelName = loggedInUser.unsubscribeFromChannel(idx);
         if(channelName != null) {
             logAction(loggedInUser.username+" has unsubscribed from the "+channelName+" channel");
-        } else {
-            System.out.println("Error: failed to unsubscribe from the channel");
         }
     }
     
@@ -290,7 +288,7 @@ public class Client {
 
     //option for blocking users
     public static void blockUser(Scanner scanner) {
-        System.out.print("Please enter the username of the user you would like to block");
+        System.out.print("Please enter the username of the user you would like to block: ");
         String usernameToBlock = scanner.nextLine();
         User userToBlock = findUserByUsername(usernameToBlock);
         if (userToBlock != null) {
@@ -304,45 +302,48 @@ public class Client {
     //option for unblocking
     public static void unblockUser(Scanner scanner) {
         if(loggedInUser.blockList == null) {
-            System.out.println("Error no users have been blocked");
+            System.out.println("Error: no users have been blocked.");
             return;
         }
         loggedInUser.displayBlockList();
-        System.out.println("Please enter the username of the user you would like to unblock");
+        System.out.print("Please enter the username of the user you would like to unblock: ");
         String usernameToUnblock = scanner.next();
         User userToUnblock = findUserByUsername(usernameToUnblock);
         if(userToUnblock != null) {
             loggedInUser.unblockUser(userToUnblock);
             logAction(loggedInUser.username+" has unblocked "+usernameToUnblock);
         } else {
-            System.out.println("Error: "+userToUnblock+" is not on block list");
+            System.out.println("Error: "+userToUnblock+" is not on block list.");
         }
     }
 
     //option for adding friends
     public static void addFriend(Scanner scanner) {
-        System.out.print("Please enter the username of the user you would like to add.");
+        System.out.print("Please enter the username of the user you would like to add: ");
         String usernameToAdd = scanner.nextLine().trim();
         User userToAdd = findUserByUsername(usernameToAdd);
         if(userToAdd != null) {
             loggedInUser.addFriend(userToAdd);
             logAction(loggedInUser.username+" has added friend "+usernameToAdd);
         } else {
-            System.out.println("Error: this user does not exist");
+            System.out.println("Error: this user does not exist.");
         }
     }
 
     //option to remove friends
     public static void removeFriend(Scanner scanner) {
+        if(loggedInUser.friendsList == null) {
+            return; 
+        }
         loggedInUser.displayFriendsList();
-        System.out.print("Please enter the username of the friend you would like to remove");
+        System.out.print("Please enter the username of the friend you would like to remove: ");
         String usernameToRemove = scanner.next();
         User userToRemove = findUserByUsername(usernameToRemove);
         if(userToRemove != null) {
             loggedInUser.removeFriend(userToRemove);
             logAction(loggedInUser.username+" has removed friend "+usernameToRemove);
         } else {
-            System.out.println("Error: "+usernameToRemove+" is not on friends lists");
+            System.out.println("Error: "+usernameToRemove+" is not on friends lists.");
         }
     }
 
